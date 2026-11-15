@@ -155,7 +155,7 @@
                     android:textColor="@color/colorInk"
                     android:textStyle="bold"
                     android:fontFamily="sans-serif"
-                    android:direction="ltr"
+                    android:textDirection="ltr"   
                     android:layout_marginStart="8dp" />
             </LinearLayout>
 
