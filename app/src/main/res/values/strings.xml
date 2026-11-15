@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">قوانین مالیاتی</string>
+    <string name="start_study">شروع مطالعه</string>
+    <string name="preparer">تهیه و تنظیم</string>
+    <string name="preparer_name">حسین جوادیان</string>
+    <string name="preparer_office">مجتمع حقوقی و مالیاتی جوادیان</string>
+    <string name="settings">تنظیمات</string>
+    <string name="search">جستجو</string>
+    <string name="table_of_contents">فهرست مطالب</string>
+    <string name="back">بازگشت</string>
+    <string name="home">صفحه اصلی</string>
+    <string name="chapter">فصل</string>
+    <string name="article">ماده</string>
+    <string name="note">تبصره</string>
+    <string name="theme">تم رنگی</string>
+    <string name="font_size">اندازه فونت</string>
+    <string name="compact_mode">حالت فشرده</string>
+    <string name="reduce_motion">کاهش حرکت</string>
+    <string name="reset_settings">بازنشانی تنظیمات</string>
+    <string name="search_hint">عبارت مورد نظر...</string>
+    <string name="no_results">نتیجه‌ای یافت نشد</string>
+    <string name="call">تماس</string>
+    <string name="phone_number">۰۹۱۲۲۸۵۲۳۴۰</string>
+    <string name="version">نسخه ۱۵ - ۱۴۰۴</string>
+</resources>

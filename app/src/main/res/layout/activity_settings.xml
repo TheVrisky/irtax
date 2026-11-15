@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorAccent"
+        app:navigationIcon="@drawable/ic_back"
+        app:navigationIconTint="@color/white"
+        app:title="تنظیمات"
+        app:titleTextColor="@color/white" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Theme Selection -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="تم رنگی"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorInk"
+                android:layout_marginBottom="12dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvThemes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Font Size -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="اندازه فونت"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorInk"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="کوچک" android:textSize="12sp" android:textColor="@color/colorMuted" />
+                
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderFontSize"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:valueFrom="12"
+                    android:valueTo="24"
+                    android:value="16"
+                    android:stepSize="1"
+                    app:thumbColor="@color/colorAccent"
+                    app:trackColorActive="@color/colorAccent"
+                    app:trackColorInactive="@color/colorLine" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="بزرگ" android:textSize="12sp" android:textColor="@color/colorMuted" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvFontSizeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="14sp"
+                android:textColor="@color/colorMuted"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Options -->
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchCompactMode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="حالت فشرده"
+                android:textSize="14sp"
+                android:textColor="@color/colorInk"
+                android:padding="12dp" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchReduceMotion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="کاهش حرکت"
+                android:textSize="14sp"
+                android:textColor="@color/colorInk"
+                android:padding="12dp" />
+
+            <!-- Reset Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="بازنشانی تنظیمات"
+                android:layout_marginTop="24dp"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                app:strokeColor="@color/colorLine"
+                android:textColor="@color/colorInk" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
