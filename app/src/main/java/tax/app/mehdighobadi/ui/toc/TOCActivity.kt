@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import tax.app.mehdighobadi.R
 import tax.app.mehdighobadi.data.TaxData
-import tax.app.mehdighobadi.theme.ThemeManager
 import tax.app.mehdighobadi.data.Chapter
 import tax.app.mehdighobadi.databinding.ActivityTocBinding
 import tax.app.mehdighobadi.ui.content.ContentActivity
@@ -20,7 +18,6 @@ class TOCActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTocBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ThemeManager(this).applyTo(this, binding.root, binding.toolbar)
 
         setupToolbar()
         setupRecyclerView()
@@ -48,8 +45,8 @@ class ChapterAdapter(
 ) : androidx.recyclerview.widget.RecyclerView.Adapter<ChapterAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
-        val tvTitle: android.widget.TextView = itemView.findViewById(R.id.tvChapterTitle)
-        val tvArticles: android.widget.TextView = itemView.findViewById(R.id.tvArticles)
+        val tvTitle: android.widget.TextView = itemView.findViewById(R.id.tv_chapter_title)
+        val tvArticles: android.widget.TextView = itemView.findViewById(R.id.tv_articles)
     }
 
     override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): ViewHolder {

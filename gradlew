@@ -1,4 +1,18 @@
-#!/bin/sh
-APP_HOME=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
-CLASSPATH="$APP_HOME/gradle/wrapper/gradle-wrapper.jar"
-exec java ${JAVA_OPTS:-} ${GRADLE_OPTS:-} -Dorg.gradle.appname=gradlew -classpath "$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "$@"
+#!/usr/bin/env bash
+
+# Gradle wrapper for irtax
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+export JAVA_HOME="${JAVA_HOME:-/usr/lib/jvm/java-17-openjdk}"
+export ANDROID_HOME="$DIR/android-sdk"
+export PATH="$JAVA_HOME/bin:$PATH"
+
+cd "$DIR"
+
+if [ -f "./bin/gradle" ]; then
+    exec ./bin/gradle "$@"
+else
+    echo "Error: Gradle not found"
+    exit 1
+fi

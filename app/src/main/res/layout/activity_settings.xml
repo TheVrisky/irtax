@@ -40,7 +40,6 @@
                 android:id="@+id/rvThemes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
                 android:layout_marginBottom="24dp" />
 
             <!-- Font Size -->
@@ -68,7 +67,6 @@
                     android:layout_weight="1"
                     android:valueFrom="12"
                     android:valueTo="24"
-                    android:value="16"
                     android:stepSize="1"
                     app:thumbColor="@color/colorAccent"
                     app:trackColorActive="@color/colorAccent"

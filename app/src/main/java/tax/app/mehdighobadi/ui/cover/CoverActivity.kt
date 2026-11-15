@@ -20,21 +20,36 @@ class CoverActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         themeManager = ThemeManager(this)
+        applyTheme()
         super.onCreate(savedInstanceState)
+        
         binding = ActivityCoverBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        applyTheme()
 
         setupUI()
         applyAnimations()
     }
 
     private fun applyTheme() {
+        val colorRes = when (themeManager.currentTheme) {
+            AppTheme.CLASSIC -> R.color.classic_accent
+            AppTheme.MIDNIGHT -> R.color.midnight_accent
+            AppTheme.OCEAN -> R.color.ocean_accent
+            AppTheme.FOREST -> R.color.forest_accent
+            AppTheme.ROYAL -> R.color.royal_accent
+            AppTheme.SUNSET -> R.color.sunset_accent
+            AppTheme.EMERALD -> R.color.emerald_accent
+            AppTheme.LAVENDER -> R.color.lavender_accent
+        }
+        
+        val bgRes = when (themeManager.currentTheme) {
+            AppTheme.MIDNIGHT -> R.color.midnight_bg
+            else -> R.color.classic_bg
+        }
+
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        themeManager.applyTo(this, binding.root)
-        val palette = themeManager.palette(this)
-        binding.tvTitle.setTextColor(palette.accent)
-        binding.tvSubtitle.setTextColor(palette.accent)
+        
+        binding.root.setBackgroundColor(ContextCompat.getColor(this, bgRes))
     }
 
     private fun setupUI() {
@@ -69,6 +84,6 @@ class CoverActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (::binding.isInitialized) applyTheme()
+        applyTheme()
     }
 }

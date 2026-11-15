@@ -1,60 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base Theme -->
-    <style name="Theme.irtax" parent="Theme.Material3.Light.NoActionBar">
-        <item name="colorPrimary">@color/classic_accent</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/classic_accent2</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="android:windowBackground">@color/classic_bg</item>
-        <item name="android:textColor">@color/classic_ink</item>
-        <item name="android:statusBarColor">@color/classic_accent</item>
-        <item name="android:navigationBarColor">@color/classic_surface</item>
-    </style>
-
-    <!-- Toolbar Style -->
-    <style name="ToolbarStyle">
-        <item name="android:background">@color/classic_accent</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:elevation">4dp</item>
-    </style>
-
-    <!-- Card Style -->
-    <style name="CardStyle">
-        <item name="android:background">@color/classic_surface</item>
-        <item name="android:elevation">2dp</item>
-        <item name="android:padding">16dp</item>
-    </style>
-
-    <!-- Article Card Style -->
-    <style name="ArticleCardStyle">
-        <item name="android:background">@color/classic_article</item>
-        <item name="android:padding">16dp</item>
-        <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-    </style>
-
-    <!-- Note Style -->
-    <style name="NoteStyle">
-        <item name="android:background">#fff8e1</item>
-        <item name="android:padding">12dp</item>
-        <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-    </style>
-
-    <!-- Chapter Title Style -->
-    <style name="ChapterTitleStyle">
-        <item name="android:textColor">@color/classic_accent</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:padding">12dp</item>
-        <item name="android:background">@color/classic_soft</item>
-    </style>
-
-    <!-- Article Number Style -->
-    <style name="ArticleNumberStyle">
-        <item name="android:textColor">@color/classic_accent</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
+    <style name="Theme.irtax" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">#F6F7FB</item>
+        <item name="android:statusBarColor">#F6F7FB</item>
+        <item name="android:navigationBarColor">#F6F7FB</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>

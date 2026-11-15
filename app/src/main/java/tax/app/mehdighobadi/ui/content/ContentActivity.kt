@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import tax.app.mehdighobadi.R
 import tax.app.mehdighobadi.data.Article
 import tax.app.mehdighobadi.data.TaxData
-import tax.app.mehdighobadi.theme.ThemeManager
 import tax.app.mehdighobadi.databinding.ActivityContentBinding
 import tax.app.mehdighobadi.ui.search.SearchActivity
 import tax.app.mehdighobadi.ui.settings.SettingsActivity
@@ -24,18 +23,11 @@ class ContentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityContentBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ThemeManager(this).applyTo(this, binding.root, binding.toolbar)
 
-        chapterId = intent.getStringExtra("chapter_id").orEmpty()
-        if (chapterId.isBlank()) { finish(); return }
+        chapterId = intent.getStringExtra("chapter_id") ?: return
         
         setupToolbar()
         loadContent()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (::binding.isInitialized) ThemeManager(this).applyTo(this, binding.root, binding.toolbar)
     }
 
     private fun setupToolbar() {
@@ -75,11 +67,8 @@ class ContentActivity : AppCompatActivity() {
     }
 
     private fun addArticleView(article: Article) {
-        val palette = ThemeManager(this).palette(this)
         val container = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setBackgroundColor(palette.article)
-            setPadding(8, 8, 8, 8)
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -92,7 +81,7 @@ class ContentActivity : AppCompatActivity() {
         // Article number
         val tvNumber = TextView(this).apply {
             text = article.number
-            setTextColor(palette.accent)
+            setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
             textSize = 16f
             setTypeface(typeface, android.graphics.Typeface.BOLD)
             setPadding(16, 16, 16, 8)
@@ -102,28 +91,17 @@ class ContentActivity : AppCompatActivity() {
         // Article content
         val tvContent = TextView(this).apply {
             text = article.content
-            setTextColor(palette.text)
-            textSize = ThemeManager(this@ContentActivity).fontSize.toFloat()
+            setTextColor(ContextCompat.getColor(context, R.color.colorInk))
+            textSize = 14f
             setPadding(16, 0, 16, 8)
         }
         container.addView(tvContent)
-
-        // Article sections
-        article.sections.forEach { section ->
-            val tvSection = TextView(this).apply {
-                text = "${section.title}: ${section.content}"
-                setTextColor(palette.text)
-                textSize = ThemeManager(this@ContentActivity).fontSize.toFloat()
-                setPadding(24, 6, 24, 6)
-            }
-            container.addView(tvSection)
-        }
 
         // Notes
         article.notes.forEach { note ->
             val tvNote = TextView(this).apply {
                 text = "${note.label}: ${note.content}"
-                setTextColor(palette.accent)
+                setTextColor(ContextCompat.getColor(context, R.color.colorAccent2))
                 textSize = 13f
                 setPadding(24, 4, 24, 4)
             }

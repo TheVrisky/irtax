@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import tax.app.mehdighobadi.R
 import tax.app.mehdighobadi.data.TaxData
-import tax.app.mehdighobadi.theme.ThemeManager
 import tax.app.mehdighobadi.databinding.ActivitySearchBinding
 import tax.app.mehdighobadi.ui.content.ContentActivity
 
@@ -21,7 +20,6 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ThemeManager(this).applyTo(this, binding.root, binding.toolbar)
 
         setupToolbar()
         setupRecyclerView()
@@ -48,20 +46,14 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun performSearch() {
-        val query = binding.etSearch.text?.toString().orEmpty().trim()
-        if (query.length < 2) {
-            binding.rvResults.visibility = View.GONE
-            binding.tvNoResults.visibility = View.VISIBLE
-            binding.tvNoResults.text = "برای جستجو حداقل دو نویسه وارد کنید"
-            return
-        }
+        val query = binding.etSearch.text.toString()
+        if (query.length < 2) return
 
         val results = TaxData.searchInContent(query)
         
         if (results.isEmpty()) {
             binding.rvResults.visibility = View.GONE
             binding.tvNoResults.visibility = View.VISIBLE
-            binding.tvNoResults.text = getString(R.string.no_results)
         } else {
             binding.rvResults.visibility = View.VISIBLE
             binding.tvNoResults.visibility = View.GONE
