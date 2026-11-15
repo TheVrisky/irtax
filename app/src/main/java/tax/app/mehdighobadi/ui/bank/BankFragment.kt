@@ -142,21 +142,21 @@ class ChapterAdapter(
                 b.progressChapter.progress =
                     if (chapter.articles.isEmpty()) 0
                     else (read * 100 / chapter.articles.size)
-                b.itemView.setOnClickListener { onOpen(chapter.id, 0) }
+                b.root.setOnClickListener { onOpen(chapter.id, 0) }
             }
             is ResultRow -> {
                 b.tvChapterTitle.text = row.title
                 b.tvChapterCount.text = ""
                 b.tvChapterProgress.text = ""
                 b.progressChapter.progress = 0
-                b.itemView.setOnClickListener {
+                b.root.setOnClickListener {
                     val chapter = TaxData.content.chapters.find { it.id == row.chapterId }
                     if (chapter != null) onOpen(chapter.id, 0)
                 }
             }
         }
-        b.itemView.addPressScale(motion)
-        b.itemView.enterStaggered(position, motion)
+        b.root.addPressScale(motion)
+        b.root.enterStaggered(position, motion)
     }
 
     private fun getStringFor(b: ItemChapterBinding, res: Int, vararg args: String): String =
