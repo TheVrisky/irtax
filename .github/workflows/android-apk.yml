@@ -42,8 +42,8 @@ jobs:
           for i in {1..30}; do printf 'y\\n'; done | "$SDKMANAGER" --sdk_root="$SDK_ROOT" --licenses >/dev/null
           "$SDKMANAGER" --sdk_root="$SDK_ROOT" --install \
             "platform-tools" \
-            "platforms;android-33" \
-            "build-tools;33.0.2"
+            "platforms;android-34" \
+            "build-tools;34.0.2"
 
       - name: Set up Gradle and cache
         uses: gradle/actions/setup-gradle@v4
