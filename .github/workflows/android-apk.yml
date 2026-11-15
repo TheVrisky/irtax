@@ -39,7 +39,7 @@ jobs:
             echo "sdkmanager was not found under $SDK_ROOT/cmdline-tools"
             exit 1
           fi
-          yes | "$SDKMANAGER" --sdk_root="$SDK_ROOT" --licenses >/dev/null
+          for i in {1..30}; do printf 'y\\n'; done | "$SDKMANAGER" --sdk_root="$SDK_ROOT" --licenses >/dev/null
           "$SDKMANAGER" --sdk_root="$SDK_ROOT" --install \
             "platform-tools" \
             "platforms;android-33" \
