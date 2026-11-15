@@ -103,7 +103,7 @@ class ChapterProgressAdapter(
         holder.binding.tvChapterRatio.text = "${read.toFaDigits()}/${size.toFaDigits()}"
         holder.binding.progressChapter.progress =
             if (size == 0) 0 else read * 100 / size
-        holder.binding.itemView.enterStaggered(position, themeManager.reduceMotion)
+        holder.binding.root.enterStaggered(position, themeManager.reduceMotion)
     }
 
     override fun getItemCount(): Int = chapters.size
