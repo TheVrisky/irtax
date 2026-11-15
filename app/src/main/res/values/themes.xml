@@ -1,9 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.irtax" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:windowBackground">#F6F7FB</item>
-        <item name="android:statusBarColor">#F6F7FB</item>
-        <item name="android:navigationBarColor">#F6F7FB</item>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base app theme: DayNight (light/dark via values-night colors), Vazirmatn font -->
+    <style name="Theme.irtax" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:fontFamily">@font/vazirmatn</item>
+        <item name="fontFamily">@font/vazirmatn</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorPrimaryContainer">@color/primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/on_primary_container</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/on_primary</item>
+        <item name="colorSecondaryContainer">@color/secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/on_secondary_container</item>
+        <item name="colorSurface">@color/surface_solid</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorSurfaceVariant">@color/surface_tinted</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+        <item name="colorOutline">@color/outline</item>
+        <item name="colorError">@color/danger</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="android:windowBackground">@drawable/bg_app_gradient</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:textColorHint">@color/text_tertiary</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
     </style>
+
+    <!-- Dark-mode variant flags (colors themselves come from values-night) -->
+    <style name="Theme.irtax.Dark" parent="Theme.irtax">
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <!-- ===== Accent theme overlays (applied at runtime) ===== -->
+    <style name="ThemeOverlay.irtax.AccentIndigo" parent="">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryContainer">@color/primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/on_primary_container</item>
+    </style>
+
+    <style name="ThemeOverlay.irtax.AccentTeal" parent="">
+        <item name="colorPrimary">@color/primary_teal</item>
+        <item name="colorPrimaryContainer">@color/primary_teal_container</item>
+    </style>
+
+    <style name="ThemeOverlay.irtax.AccentViolet" parent="">
+        <item name="colorPrimary">@color/primary_violet</item>
+        <item name="colorPrimaryContainer">@color/primary_violet_container</item>
+    </style>
+
+    <!-- ===== Text appearances (Persian-optimized line-height) ===== -->
+    <style name="Text.irtax.Headline" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">23sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:fontFamily">@font/vazirmatn</item>
+        <item name="fontFamily">@font/vazirmatn</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+    </style>
+
+    <style name="Text.irtax.Title" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:fontFamily">@font/vazirmatn</item>
+        <item name="fontFamily">@font/vazirmatn</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+
+    <style name="Text.irtax.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:fontFamily">@font/vazirmatn</item>
+        <item name="fontFamily">@font/vazirmatn</item>
+        <item name="android:lineSpacingMultiplier">1.8</item>
+    </style>
+
+    <style name="Text.irtax.Caption" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/text_tertiary</item>
+        <item name="android:fontFamily">@font/vazirmatn</item>
+        <item name="fontFamily">@font/vazirmatn</item>
+        <item name="android:lineSpacingMultiplier">1.6</item>
+    </style>
+
 </resources>

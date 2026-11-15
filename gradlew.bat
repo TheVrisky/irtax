@@ -1,19 +1,4 @@
 @echo off
-setlocal EnableDelayedExpansion
-
-set JAVA_HOME=C:\Program Files\Java\jdk-17
-set ANDROID_HOME=%~dp0android-sdk
-set PATH=%JAVA_HOME%\bin;%PATH%
-
-echo Starting Gradle build for irtax...
-echo.
-
-cd /d "%~dp0"
-
-if exist "bin\gradle.bat" (
-    call bin\gradle.bat %*
-) else (
-    echo Error: Gradle not found in bin folder
-    echo Please ensure Gradle is properly installed
-    exit /b 1
-)
+set DIR=%~dp0
+if "%JAVA_HOME%"=="" (set JAVA_EXE=java.exe) else (set JAVA_EXE=%JAVA_HOME%\bin\java.exe)
+"%JAVA_EXE%" %JAVA_OPTS% %GRADLE_OPTS% -Dorg.gradle.appname=gradlew -classpath "%DIR%gradle\wrapper\gradle-wrapper.jar" org.gradle.wrapper.GradleWrapperMain %*

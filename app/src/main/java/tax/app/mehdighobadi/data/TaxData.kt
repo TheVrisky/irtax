@@ -205,19 +205,32 @@ object TaxData {
     )
 
     fun searchInContent(query: String): List<Pair<String, String>> {
-        val results = mutableListOf<Pair<String, String>>()
-        if (query.length < 2) return results
-
+        val normalizedQuery = normalize(query)
+        if (normalizedQuery.length < 2) return emptyList()
+        val results = linkedSetOf<Pair<String, String>>()
         content.chapters.forEach { chapter ->
-            if (chapter.title.contains(query)) {
-                results.add(chapter.id to chapter.title)
-            }
+            if (normalize(chapter.title).contains(normalizedQuery)) results.add(chapter.id to chapter.title)
             chapter.articles.forEach { article ->
-                if (article.number.contains(query) || article.content.contains(query)) {
-                    results.add(chapter.id to article.number)
+                val searchableText = buildString {
+                    append(article.number).append(' ').append(article.content).append(' ')
+                    article.sections.forEach { append(it.title).append(' ').append(it.content).append(' ') }
+                    article.notes.forEach { append(it.label).append(' ').append(it.content).append(' ') }
+                }
+                if (normalize(searchableText).contains(normalizedQuery)) {
+                    results.add(chapter.id to "${article.number} - ${chapter.title}")
                 }
             }
         }
-        return results.take(10)
+        return results.take(30)
     }
+
+    private fun normalize(value: String): String = value
+        .replace('ي', 'ی')
+        .replace('ك', 'ک')
+        .replace('ة', 'ه')
+        .replace('ۀ', 'ه')
+        .replace(Regex("[\u064B-\u065F\u0670]"), "")
+        .replace(Regex("\\s+"), " ")
+        .trim()
+
 }

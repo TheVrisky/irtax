@@ -1,62 +1,43 @@
-# irtax | راهنمای ساخت APK
+# ایرتکس ۲.۰ — بازطراحی کامل رابط کاربری
 
-## مشخصات
-- Package/Application ID: `tax.app.mehdighobadi`
-- Kotlin + Android Views + View Binding
-- AGP: `8.2.0`
-- Gradle: `8.4`
-- Kotlin Gradle Plugin: `1.9.20`
-- JDK: `17`
-- Compile/Target SDK: `33`
-- Min SDK: `24`
+نسخه ۲.۰ با رابط کاربری کاملاً جدید (Modern Minimal + Soft Glassmorphism) از صفر بازنویسی شده است.
+منطق عملکردی و داده‌ی قانون (فصل‌ها، مواد، بندها، تبصره‌ها و موتور جستجو) بدون تغییر حفظ شده است.
 
-## ساختار
-سورس‌ها در مسیر استاندارد `app/src/main` قرار گرفته‌اند. فایل `local.properties` عمداً داخل ZIP نیست، چون مسیر SDK در هر کامپیوتر متفاوت است.
+## ساختار جدید
 
-## تنظیم SDK در ویندوز
-در ریشه پروژه، کنار `settings.gradle.kts` فایل `local.properties` بساز:
-
-```properties
-sdk.dir=C:/Users/USERNAME/AppData/Local/Android/Sdk
+```
+app/src/main/java/tax/app/mehdighobadi/
+├── data/
+│   ├── TaxData.kt            ← داده‌ی قانون (بدون تغییر)
+│   └── AppRepository.kt      ← نشان‌گذاری‌ها، آمار مطالعه، پیشنهاد هوشمند (آفلاین)
+├── theme/
+│   └── ThemeManager.kt       ← حالت روشن/تاریک/سیستمی، رنگ اصلی، اندازه فونت، کاهش انیمیشن
+└── ui/
+    ├── main/MainActivity.kt      ← میزبان + نوار پایین شناور شیشه‌ای (۵ تب)
+    ├── home/HomeFragment.kt      ← هدر مینیمال، کارت Hero، آمار شیشه‌ای، پیشنهاد هوشمند
+    ├── bank/BankFragment.kt      ← بانک سوالات: فصل‌ها + جستجوی زنده
+    ├── favorites/FavoritesFragment.kt
+    ├── stats/StatsFragment.kt    ← شمارنده‌های متحرک + پیشرفت هر فصل
+    ├── settings/SettingsFragment.kt
+    ├── reader/ReaderActivity.kt  ← کارت سوال + نوار پیشرفت + قبلی/بعدی + نشان‌گذاری
+    ├── reader/ArticlePageFragment.kt
+    └── common/ViewExtensions.kt  ← انیمیشن stagger، press-scale، شمارنده متحرک، ارقام فارسی
 ```
 
-مسیر بالا را با مسیر واقعی SDK عوض کن. حداقل این بسته‌ها لازم‌اند:
-- Android SDK Platform 33 (`platforms;android-33`)
-- Android SDK Build-Tools 33.0.2 (`build-tools;33.0.2`)
-- Android SDK Platform-Tools (`platform-tools`)
+## امکانات
 
-## تنظیم JDK
-در Android Studio > Settings > Build, Execution, Deployment > Build Tools > Gradle، گزینه Gradle JDK را روی JDK 17 قرار بده.
+- **فونت وزیرمتن** به‌صورت محلی در `res/font` (بدون CDN)
+- **حالت روشن و تاریک** با پالت نیلی + دو رنگ جایگزین (فیروزه‌ای، بنفش)
+- **نوار پایین شناور** با پس‌زمینه شیشه‌ای و نشانگر pill متحرک
+- **صفحه سوالات** با کارت گرد، نوار پیشرفت، ترنزیشن slide جهت‌دار RTL و انیمیشن‌های stagger
+- **حس هوشمند**: پیشنهاد «کدام فصل را تمرین کن» بر اساس روند مطالعه + شمارنده‌های متحرک
+- **کاملاً آفلاین**: هیچ دسترسی شبکه‌ای در manifest وجود ندارد
+- **دسترس‌پذیری**: هدف لمسی ≥ ۴۸dp، contentDescription روی آیکون‌ها، سوییچ کاهش انیمیشن
 
-## Build با Gradle نصب‌شده
-از CMD در ریشه پروژه اجرا کن:
+## ساخت
 
-```bat
-gradle --version
-gradle --offline :app:assembleDebug
+```bash
+./gradlew :app:assembleDebug
 ```
 
-اگر تمام Pluginها و کتابخانه‌ها در Cache باشند، خروجی در این مسیر ساخته می‌شود:
-
-```text
-appuild\outputspk\debugpp-debug.apk
-```
-
-## Build با Wrapper
-Wrapper استاندارد به `https://services.gradle.org/distributions/gradle-8.4-bin.zip` اشاره می‌کند. چون این آدرس ممکن است از شبکه شما در دسترس نباشد، اگر Gradle 8.4 از قبل نصب است از دستور `gradle --offline` استفاده کن. Wrapper بدون توزیع Gradle در Cache قادر به اجرای آفلاین نیست.
-
-## وابستگی‌های مستقیم
-- `androidx.core:core-ktx:1.12.0`
-- `androidx.appcompat:appcompat:1.6.1`
-- `com.google.android.material:material:1.11.0`
-- `androidx.recyclerview:recyclerview:1.3.2`
-- `androidx.constraintlayout:constraintlayout:2.1.4`
-- `androidx.cardview:cardview:1.0.0`
-
-وابستگی‌های انتقالی این کتابخانه‌ها نیز باید در Gradle Cache موجود باشند. وجود mirror مایکت در فایل مخازن به معنی تأیید موجود بودن همه Artifactها در آن نیست؛ در صورت نبود Artifact، Gradle به مخازن رسمی بعدی رجوع می‌کند.
-
-## نکات مهم محتوا
-محتوای `TaxData.kt` در سورس ورودی عمدتاً مربوط به «قانون پایانه‌های فروشگاهی و سامانه مؤدیان» است، نه متن کامل «قانون مالیات‌های مستقیم». متن‌های حقوقی عمداً در این تعمیر فنی بازنویسی یا تکمیل نشده‌اند و قبل از انتشار باید با متن رسمی و آخرین اصلاحات تطبیق داده شوند.
-
-## محدودیت اعتبارسنجی این بسته
-در محیط آماده‌سازی این ZIP، Android SDK و Gradle اجرایی نصب نبودند؛ بنابراین Build واقعی APK و تست روی شبیه‌ساز/دستگاه انجام نشده است. بررسی XML و کامپایل مستقل فایل داده Kotlin انجام شده است. اولین Build روی کامپیوتر توسعه‌دهنده همچنان لازم است.
+- minSdk 24 — targetSdk 34 — Kotlin + ViewBinding — Material 3

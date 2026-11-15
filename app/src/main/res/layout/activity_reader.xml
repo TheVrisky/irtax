@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- هدر شیشه‌ای -->
+    <LinearLayout
+        android:id="@+id/reader_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_glass_card"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/space_lg"
+        android:paddingVertical="@dimen/space_sm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/icon_btn"
+            android:layout_height="@dimen/icon_btn"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/cd_back"
+            android:src="@drawable/ic_chevron_right"
+            app:tint="@color/text_primary" />
+
+        <TextView
+            android:id="@+id/tv_chapter_title"
+            style="@style/Text.irtax.Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_sm"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textSize="14sp"
+            tools:text="فصل دوم - تکالیف اشخاص مشمول" />
+
+        <ImageButton
+            android:id="@+id/btn_bookmark"
+            android:layout_width="@dimen/icon_btn"
+            android:layout_height="@dimen/icon_btn"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/cd_bookmark"
+            android:src="@drawable/ic_bookmark"
+            app:tint="@color/text_primary" />
+
+    </LinearLayout>
+
+    <!-- نوار پیشرفت: شماره سوال + درصد پیشرفت -->
+    <LinearLayout
+        android:id="@+id/progress_row"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screen_pad"
+        android:layout_marginTop="@dimen/space_md"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/reader_header">
+
+        <TextView
+            android:id="@+id/tv_counter"
+            style="@style/Text.irtax.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/vazirmatn_semibold"
+            android:textColor="@color/primary"
+            tools:text="۳ از ۱۳" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_articles"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_lg"
+            android:layout_weight="1"
+            app:indicatorColor="@color/primary"
+            app:trackColor="@color/primary_soft_alpha"
+            app:trackCornerRadius="3dp"
+            app:trackThickness="4dp" />
+
+    </LinearLayout>
+
+    <!-- کارت سوال (ViewPager2 با ترنزیشن slide جهت‌دار) -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/screen_pad"
+        android:layout_marginTop="@dimen/space_md"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/reader_bottom_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progress_row" />
+
+    <!-- نوار پایین: قبلی / بعدی -->
+    <LinearLayout
+        android:id="@+id/reader_bottom_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/nav_bar_margin_h"
+        android:layout_marginBottom="@dimen/nav_bar_margin_bottom"
+        android:background="@drawable/bg_nav_glass"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/space_sm"
+        android:paddingVertical="@dimen/space_sm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/btn_prev"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_pill_container"
+            android:drawableEnd="@drawable/ic_chevron_right"
+            android:drawablePadding="6dp"
+            android:drawableTint="@color/on_primary_container"
+            android:fontFamily="@font/vazirmatn_semibold"
+            android:gravity="center"
+            android:minWidth="110dp"
+            android:paddingHorizontal="18dp"
+            android:text="@string/reader_prev"
+            android:textColor="@color/on_primary_container"
+            android:textSize="14sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_pill_primary"
+            android:drawableStart="@drawable/ic_chevron_left"
+            android:drawablePadding="6dp"
+            android:drawableTint="@color/on_primary"
+            android:fontFamily="@font/vazirmatn_semibold"
+            android:gravity="center"
+            android:minWidth="110dp"
+            android:paddingHorizontal="18dp"
+            android:text="@string/reader_next"
+            android:textColor="@color/on_primary"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

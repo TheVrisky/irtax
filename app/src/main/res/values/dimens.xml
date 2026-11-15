@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Radii -->
+    <dimen name="radius_card">24dp</dimen>
+    <dimen name="radius_card_lg">28dp</dimen>
+    <dimen name="radius_card_sm">16dp</dimen>
+    <dimen name="radius_pill">100dp</dimen>
+
+    <!-- Spacing (generous whitespace) -->
+    <dimen name="space_xs">4dp</dimen>
+    <dimen name="space_sm">8dp</dimen>
+    <dimen name="space_md">12dp</dimen>
+    <dimen name="space_lg">16dp</dimen>
+    <dimen name="space_xl">20dp</dimen>
+    <dimen name="space_2xl">24dp</dimen>
+    <dimen name="space_3xl">32dp</dimen>
+
+    <!-- Screen gutters -->
+    <dimen name="screen_pad">20dp</dimen>
+
+    <!-- Cards -->
+    <dimen name="card_elevation">6dp</dimen>
+    <dimen name="card_elevation_soft">3dp</dimen>
+
+    <!-- Bottom nav -->
+    <dimen name="nav_bar_height">64dp</dimen>
+    <dimen name="nav_bar_margin_h">16dp</dimen>
+    <dimen name="nav_bar_margin_bottom">18dp</dimen>
+
+    <!-- Touch targets -->
+    <dimen name="touch_min">48dp</dimen>
+    <dimen name="icon_btn">48dp</dimen>
+
+    <!-- Reader -->
+    <dimen name="reader_progress_height">4dp</dimen>
+</resources>

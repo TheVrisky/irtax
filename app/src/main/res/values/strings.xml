@@ -1,26 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">قوانین مالیاتی</string>
-    <string name="start_study">شروع مطالعه</string>
-    <string name="preparer">تهیه و تنظیم</string>
-    <string name="preparer_name">حسین جوادیان</string>
-    <string name="preparer_office">مجتمع حقوقی و مالیاتی جوادیان</string>
-    <string name="settings">تنظیمات</string>
-    <string name="search">جستجو</string>
-    <string name="table_of_contents">فهرست مطالب</string>
-    <string name="back">بازگشت</string>
-    <string name="home">صفحه اصلی</string>
-    <string name="chapter">فصل</string>
-    <string name="article">ماده</string>
-    <string name="note">تبصره</string>
-    <string name="theme">تم رنگی</string>
-    <string name="font_size">اندازه فونت</string>
-    <string name="compact_mode">حالت فشرده</string>
-    <string name="reduce_motion">کاهش حرکت</string>
-    <string name="reset_settings">بازنشانی تنظیمات</string>
-    <string name="search_hint">عبارت مورد نظر...</string>
+    <string name="app_name">ایرتکس</string>
+    <string name="home_tab">خانه</string>
+    <string name="bank_tab">بانک سوالات</string>
+    <string name="favorites_tab">نشان‌شده‌ها</string>
+    <string name="stats_tab">آمار و پیشرفت</string>
+    <string name="settings_tab">تنظیمات</string>
+
+    <!-- Home -->
+    <string name="home_greeting">ادامه‌ی یادگیری</string>
+    <string name="hero_cta">ادامه مطالعه</string>
+    <string name="hero_cta_start">شروع آزمون</string>
+    <string name="hero_progress_label">پیشرفت کل</string>
+    <string name="stat_articles">ماده قانونی</string>
+    <string name="stat_chapters">فصل</string>
+    <string name="stat_favorites">نشان‌شده</string>
+    <string name="stat_read">خوانده‌شده</string>
+    <string name="smart_suggestion_title">پیشنهاد هوشمند</string>
+    <string name="smart_suggestion_practice">بر اساس روند مطالعه‌ی تو، پیشنهاد می‌کنیم این بخش را تمرین کنی:</string>
+    <string name="smart_suggestion_done">آفرین! همه‌ی فصل‌ها را کامل مرور کرده‌ای 🎯</string>
+    <string name="smart_suggestion_fresh">برای شروع، فصل اول پایه‌ی خوبی است.</string>
+    <string name="practice_now">تمرین کن</string>
+    <string name="quick_access">دسترسی سریع</string>
+    <string name="last_read">آخرین مطالعه</string>
+    <string name="never_read">هنوز مطالعه‌ای ثبت نشده</string>
+
+    <!-- Bank -->
+    <string name="bank_title">بانک سوالات</string>
+    <string name="bank_subtitle">فصل‌ها و مواد قانون پایانه فروشگاهی</string>
+    <string name="search_hint">جستجو در متن سوالات…</string>
+    <string name="search_min_hint">برای جستجو حداقل ۲ نویسه وارد کنید</string>
     <string name="no_results">نتیجه‌ای یافت نشد</string>
-    <string name="call">تماس</string>
-    <string name="phone_number">۰۹۱۲۲۸۵۲۳۴۰</string>
-    <string name="version">نسخه ۱۵ - ۱۴۰۴</string>
+    <string name="articles_count">%s ماده</string>
+    <string name="chapter_progress">%1$s از %2$s ماده مرور شده</string>
+
+    <!-- Favorites -->
+    <string name="favorites_title">نشان‌شده‌ها</string>
+    <string name="favorites_empty_title">هنوز چیزی نشان نکرده‌ای</string>
+    <string name="favorites_empty_body">در صفحه‌ی سوالات، با دکمه‌ی نشان‌گذاری، مواد مهم را اینجا ذخیره کن تا همیشه در دسترس باشند.</string>
+    <string name="remove_bookmark">حذف نشان</string>
+
+    <!-- Stats -->
+    <string name="stats_title">آمار و پیشرفت</string>
+    <string name="stats_overall_progress">پیشرفت کلی</string>
+    <string name="stats_read_articles">مواد خوانده‌شده</string>
+    <string name="stats_study_days">روزهای مطالعه</string>
+    <string name="stats_per_chapter">پیشرفت به تفکیک فصل</string>
+    <string name="stats_activity">فعالیت اخیر</string>
+    <string name="stats_empty_body">با مطالعه‌ی مواد، پیشرفت تو اینجا به‌صورت زنده ثبت می‌شود.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">تنظیمات</string>
+    <string name="settings_appearance">ظاهر</string>
+    <string name="settings_dark_mode">حالت نمایش</string>
+    <string name="dark_mode_light">روشن</string>
+    <string name="dark_mode_dark">تاریک</string>
+    <string name="dark_mode_system">سیستمی</string>
+    <string name="settings_accent">رنگ اصلی</string>
+    <string name="accent_indigo">نیلی</string>
+    <string name="accent_teal">فیروزه‌ای</string>
+    <string name="accent_violet">بنفش</string>
+    <string name="settings_reading">مطالعه</string>
+    <string name="settings_font_size">اندازه فونت</string>
+    <string name="settings_reduce_motion">کاهش انیمیشن‌ها</string>
+    <string name="settings_reduce_motion_desc">غیرفعال کردن حرکت‌های تزئینی برای تجربه‌ی آرام‌تر</string>
+    <string name="settings_reset">بازنشانی تنظیمات</string>
+    <string name="settings_reset_done">تنظیمات بازنشانی شد</string>
+
+    <!-- Reader -->
+    <string name="reader_progress">%s از %s</string>
+    <string name="reader_prev">قبلی</string>
+    <string name="reader_next">بعدی</string>
+    <string name="reader_bookmark">نشان‌گذاری</string>
+    <string name="reader_bookmarked">نشان‌شده</string>
+    <string name="reader_sections_title">بندها</string>
+    <string name="reader_notes_title">تبصره‌ها</string>
+    <string name="reader_finished_title">فصل کامل شد</string>
+    <string name="reader_finished_body">تمام مواد این فصل را مرور کردی. ادامه بده تا پیشرفتت کامل شود.</string>
+    <string name="back">بازگشت</string>
+
+    <!-- A11y / misc -->
+    <string name="cd_open_settings">باز کردن تنظیمات</string>
+    <string name="cd_search">جستجو</string>
+    <string name="cd_bookmark">نشان‌گذاری این ماده</string>
+    <string name="cd_back">بازگشت</string>
+    <string name="cd_previous">ماده قبلی</string>
+    <string name="cd_next">ماده بعدی</string>
 </resources>

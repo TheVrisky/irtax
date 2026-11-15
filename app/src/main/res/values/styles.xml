@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.irtax.NavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/nav_indicator</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.irtax.Pill</item>
+    </style>
+
+    <style name="ShapeAppearance.irtax.Pill" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">100dp</item>
+    </style>
+
+    <style name="Widget.irtax.Segmented" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textSize">13sp</item>
+        <item name="fontFamily">@font/vazirmatn_medium</item>
+    </style>
+</resources>

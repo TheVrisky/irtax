@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/screen_pad"
+        android:paddingTop="@dimen/space_2xl"
+        android:paddingBottom="120dp">
+
+        <TextView
+            style="@style/Text.irtax.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stats_title" />
+
+        <!-- کارت پیشرفت کلی -->
+        <LinearLayout
+            android:id="@+id/progress_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xl"
+            android:background="@drawable/bg_hero_card"
+            android:orientation="vertical"
+            android:padding="@dimen/space_2xl">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.9"
+                android:fontFamily="@font/vazirmatn_medium"
+                android:text="@string/stats_overall_progress"
+                android:textColor="@color/on_primary"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_overall_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:fontFamily="@font/vazirmatn_bold"
+                android:textColor="@color/on_primary"
+                android:textSize="40sp"
+                tools:text="۳۵٪" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_overall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                app:indicatorColor="@color/on_primary"
+                app:trackColor="#33FFFFFF"
+                app:trackCornerRadius="4dp"
+                app:trackThickness="8dp" />
+
+            <TextView
+                android:id="@+id/tv_overall_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_md"
+                android:alpha="0.85"
+                android:fontFamily="@font/vazirmatn"
+                android:textColor="@color/on_primary"
+                android:textSize="12sp"
+                tools:text="۸ از ۲۴ ماده مرور شده" />
+
+        </LinearLayout>
+
+        <!-- دو شاخص کلیدی -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_glass_card"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/space_xl">
+
+                <FrameLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_circle_success">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_check"
+                        app:tint="@color/success" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tv_stat_read"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:fontFamily="@font/vazirmatn_bold"
+                    android:textColor="@color/text_primary"
+                    android:textSize="22sp"
+                    tools:text="۸" />
+
+                <TextView
+                    style="@style/Text.irtax.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stats_read_articles" />
+
+            </LinearLayout>
+
+            <Space android:layout_width="12dp" android:layout_height="1dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_glass_card"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/space_xl">
+
+                <FrameLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_circle_primary">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_calendar"
+                        app:tint="@color/primary" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tv_stat_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:fontFamily="@font/vazirmatn_bold"
+                    android:textColor="@color/text_primary"
+                    android:textSize="22sp"
+                    tools:text="۵" />
+
+                <TextView
+                    style="@style/Text.irtax.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stats_study_days" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- پیشرفت به تفکیک فصل -->
+        <TextView
+            style="@style/Text.irtax.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_2xl"
+            android:text="@string/stats_per_chapter"
+            android:textSize="16sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_chapter_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

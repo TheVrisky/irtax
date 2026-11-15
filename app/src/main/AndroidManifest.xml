@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- اپ کاملاً آفلاین است؛ هیچ دسترسی شبکه‌ای لازم نیست -->
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,9 +15,10 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.irtax">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,34 +27,10 @@
         </activity>
 
         <activity
-            android:name=".ui.cover.CoverActivity"
+            android:name=".ui.reader.ReaderActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.irtax" />
-
-        <activity
-            android:name=".ui.toc.TOCActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".ui.cover.CoverActivity" />
-
-        <activity
-            android:name=".ui.content.ContentActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".ui.cover.CoverActivity" />
-
-        <activity
-            android:name=".ui.settings.SettingsActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".ui.cover.CoverActivity" />
-
-        <activity
-            android:name=".ui.search.SearchActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".ui.cover.CoverActivity" />
+            android:parentActivityName=".ui.main.MainActivity" />
 
     </application>
 
