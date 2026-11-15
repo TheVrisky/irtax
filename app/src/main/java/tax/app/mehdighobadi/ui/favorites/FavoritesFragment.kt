@@ -81,9 +81,9 @@ class FavoritesAdapter(
         holder.binding.tvArticleNumber.text = article?.number ?: ""
         holder.binding.tvChapterName.text = chapter?.title ?: ""
         holder.binding.tvArticleSnippet.text = article?.content ?: ""
-        holder.binding.itemView.addPressScale(themeManager.reduceMotion)
-        holder.binding.itemView.enterStaggered(position, themeManager.reduceMotion)
-        holder.binding.itemView.setOnClickListener { onOpen(ref) }
+        holder.binding.root.addPressScale(themeManager.reduceMotion)
+        holder.binding.root.enterStaggered(position, themeManager.reduceMotion)
+        holder.binding.root.setOnClickListener { onOpen(ref) }
     }
 
     override fun getItemCount(): Int = refs.size
