@@ -25,6 +25,12 @@
     <string name="smart_suggestion_fresh">برای شروع، فصل اول پایه‌ی خوبی است.</string>
     <string name="practice_now">تمرین کن</string>
     <string name="quick_access">دسترسی سریع</string>
+    <string name="infographic_title">نگاه تصویری</string>
+    <string name="infographic_invoice_flow">مسیر ثبت و بررسی صورت‌حساب</string>
+    <string name="infographic_step_seller">صدور توسط فروشنده</string>
+    <string name="infographic_step_system">انتقال به کارپوشه</string>
+    <string name="infographic_step_buyer">بررسی خریدار</string>
+    <string name="infographic_source_note">خلاصه آموزشی بر اساس ماده ۵ قانون پایانه‌های فروشگاهی و سامانه مؤدیان.</string>
     <string name="last_read">آخرین مطالعه</string>
     <string name="never_read">هنوز مطالعه‌ای ثبت نشده</string>
 
