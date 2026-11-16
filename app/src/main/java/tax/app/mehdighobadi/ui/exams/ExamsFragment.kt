@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import tax.app.mehdighobadi.R
 import tax.app.mehdighobadi.databinding.FragmentExamsBinding
+import tax.app.mehdighobadi.ui.main.MainActivity
 
-/** صفحه پایه آزمون‌ها؛ موتور آزمون و بانک سؤال در مرحله بعد اضافه می‌شوند. */
+/** صفحه معرفی مرکز آزمون؛ موتور آزمون در مرحله بعدی توسعه متصل می‌شود. */
 class ExamsFragment : Fragment() {
     private var _binding: FragmentExamsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,7 +23,12 @@ class ExamsFragment : Fragment() {
         return binding.root
     }
 
-    private val binding get() = _binding!!
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnExamsExplore.setOnClickListener {
+            (activity as? MainActivity)?.selectTab(R.id.nav_articles)
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
