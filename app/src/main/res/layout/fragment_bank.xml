@@ -6,101 +6,120 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingHorizontal="@dimen/screen_pad"
-    android:paddingTop="@dimen/space_2xl">
+    android:paddingHorizontal="20dp"
+    android:paddingTop="24dp">
 
-    <TextView
-        style="@style/Text.irtax.Headline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/bank_title" />
-
-    <TextView
-        style="@style/Text.irtax.Caption"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_xs"
-        android:text="@string/bank_subtitle"
-        android:textSize="13sp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_favorites"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_gravity="end"
-        android:layout_marginTop="@dimen/space_md"
-        android:fontFamily="@font/vazirmatn_medium"
-        android:text="@string/favorites_title"
-        android:textSize="12sp"
-        app:cornerRadius="@dimen/radius_pill"
-        app:icon="@drawable/ic_bookmark"
-        app:iconGravity="textStart"
-        app:iconTint="@color/primary"
-        app:strokeColor="@color/outline" />
-
-    <!-- فیلد جستجوی شیشه‌ای -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_marginTop="@dimen/space_xl"
-        android:background="@drawable/bg_search_field"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="@dimen/space_lg">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_search"
-            app:tint="@color/text_tertiary" />
-
-        <EditText
-            android:id="@+id/et_search"
+        android:orientation="horizontal">
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/space_md"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/vazirmatn"
-            android:hint="@string/search_hint"
-            android:imeOptions="actionSearch"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:lineSpacingMultiplier="1.5"
-            android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_tertiary"
-            android:textSize="14sp" />
-
-        <ImageButton
-            android:id="@+id/btn_clear"
-            android:layout_width="@dimen/touch_min"
-            android:layout_height="@dimen/touch_min"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/cd_search"
-            android:src="@drawable/ic_close"
-            android:visibility="gone"
-            app:tint="@color/text_tertiary"
-            tools:visibility="visible" />
-
+            android:orientation="vertical">
+            <TextView
+                style="@style/Text.irtax.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bank_title" />
+            <TextView
+                style="@style/Text.irtax.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="@string/bank_subtitle"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_favorites"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:fontFamily="@font/vazirmatn_medium"
+            android:text="@string/favorites_title"
+            android:textSize="11sp"
+            app:cornerRadius="14dp"
+            app:icon="@drawable/ic_bookmark"
+            app:iconGravity="textStart"
+            app:iconTint="@color/primary"
+            app:strokeColor="@color/outline" />
     </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        app:cardBackgroundColor="@color/surface_glass_strong"
+        app:cardCornerRadius="17dp"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/outline"
+        app:strokeWidth="1dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="15dp"
+            android:paddingEnd="6dp">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_search"
+                app:tint="@color/text_tertiary" />
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/vazirmatn"
+                android:hint="@string/search_hint"
+                android:imeOptions="actionSearch"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_tertiary"
+                android:textSize="13sp" />
+            <ImageButton
+                android:id="@+id/btn_clear"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/cd_search"
+                android:src="@drawable/ic_close"
+                android:visibility="gone"
+                app:tint="@color/text_tertiary"
+                tools:visibility="visible" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:layout_marginBottom="10dp"
+        android:text="فصل‌های آموزشی"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="@dimen/space_lg"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="118dp"
         android:clipToPadding="false">
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_bank"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:paddingBottom="8dp"
             tools:listitem="@layout/item_chapter" />
-
         <LinearLayout
             android:id="@+id/empty_state"
             android:layout_width="wrap_content"
@@ -109,7 +128,6 @@
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="gone">
-
             <ImageView
                 android:layout_width="44dp"
                 android:layout_height="44dp"
@@ -117,18 +135,14 @@
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_search"
                 app:tint="@color/text_tertiary" />
-
             <TextView
                 android:id="@+id/tv_empty"
                 style="@style/Text.irtax.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_md"
+                android:layout_marginTop="12dp"
                 android:gravity="center"
                 android:text="@string/search_min_hint" />
-
         </LinearLayout>
-
     </FrameLayout>
-
 </LinearLayout>
