@@ -11,8 +11,8 @@ android {
         applicationId = "tax.app.mehdighobadi"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
-        versionName = "2.0.0"
+        versionCode = 202
+        versionName = "2.0.2"
     }
 
     buildTypes {
