@@ -1,49 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ===== Dark palette ===== -->
-    <color name="background">#10131F</color>
-    <color name="bg_gradient_start">#0E111B</color>
-    <color name="bg_gradient_end">#151B2C</color>
+    <!-- Dark: deep ink surfaces, soft lavender and mint accents -->
+    <color name="background">#0B1020</color>
+    <color name="bg_gradient_start">#0B1020</color>
+    <color name="bg_gradient_end">#131C31</color>
+    <color name="surface_glass">#D9162033</color>
+    <color name="surface_glass_strong">#FF18243A</color>
+    <color name="surface_solid">#18243A</color>
+    <color name="surface_tinted">#202D46</color>
 
-    <color name="surface_glass">#B31D2233</color>
-    <color name="surface_glass_strong">#CC1E2438</color>
-    <color name="surface_solid">#1C2233</color>
-    <color name="surface_tinted">#232A3F</color>
+    <color name="text_primary">#F0F3FB</color>
+    <color name="text_secondary">#B0BCD0</color>
+    <color name="text_tertiary">#7B89A2</color>
+    <color name="outline">#2A3852</color>
+    <color name="outline_strong">#3A4A68</color>
 
-    <color name="text_primary">#EAEDF6</color>
-    <color name="text_secondary">#A6ADBF</color>
-    <color name="text_tertiary">#6E7589</color>
-    <color name="outline">#28304A</color>
-    <color name="outline_strong">#38415E</color>
+    <color name="primary">#A5B4FC</color>
+    <color name="primary_deep">#6366F1</color>
+    <color name="on_primary">#10162A</color>
+    <color name="primary_container">#29345C</color>
+    <color name="on_primary_container">#D5DAFF</color>
+    <color name="primary_soft_alpha">#33A5B4FC</color>
 
-    <color name="primary">#8A93FF</color>
-    <color name="primary_deep">#5B67F1</color>
-    <color name="on_primary">#10131F</color>
-    <color name="primary_container">#2A2F55</color>
-    <color name="on_primary_container">#C4C9FF</color>
-    <color name="primary_soft_alpha">#338A93FF</color>
+    <color name="secondary">#4DD6C5</color>
+    <color name="secondary_container">#173D3D</color>
+    <color name="on_secondary_container">#A6F2E8</color>
 
-    <color name="secondary">#2FD4C2</color>
-    <color name="secondary_container">#1C3A3D</color>
-    <color name="on_secondary_container">#9BF0E6</color>
+    <color name="hero_gradient_start">#3730A3</color>
+    <color name="hero_gradient_end">#5B4BC4</color>
 
-    <color name="hero_gradient_start">#3A42B8</color>
-    <color name="hero_gradient_end">#5A3FC0</color>
+    <color name="success">#49D6A4</color>
+    <color name="success_container">#183D35</color>
+    <color name="danger">#FF7A83</color>
+    <color name="danger_container">#49252F</color>
+    <color name="warning">#F5BD63</color>
+    <color name="warning_container">#46371F</color>
 
-    <color name="success">#3BD49B</color>
-    <color name="success_container">#1B3A2E</color>
-    <color name="danger">#F26B6F</color>
-    <color name="danger_container">#43232A</color>
-    <color name="warning">#F5B04D</color>
-    <color name="warning_container">#40331B</color>
+    <color name="primary_teal">#4DD6C5</color>
+    <color name="primary_teal_container">#173D3D</color>
+    <color name="primary_violet">#B69BFF</color>
+    <color name="primary_violet_container">#352B56</color>
 
-    <color name="primary_teal">#2FD4C2</color>
-    <color name="primary_teal_container">#1C3A3D</color>
-    <color name="primary_violet">#A78BFA</color>
-    <color name="primary_violet_container">#332A54</color>
-
-    <color name="nav_glass">#CC1A1F33</color>
-    <color name="nav_indicator">#2A2F55</color>
-
-    <color name="launcher_background">#5B67F1</color>
+    <color name="nav_glass">#F21A263D</color>
+    <color name="nav_indicator">#303A68</color>
+    <color name="launcher_background">#5146E5</color>
 </resources>
