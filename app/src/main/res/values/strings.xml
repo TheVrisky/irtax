@@ -2,7 +2,10 @@
 <resources>
     <string name="app_name">ایرتکس</string>
     <string name="home_tab">خانه</string>
-    <string name="bank_tab">بانک سوالات</string>
+    <string name="exams_tab">آزمون‌ها</string>
+    <string name="articles_tab">مطالب</string>
+    <string name="support_tab">پرسش‌وپاسخ</string>
+    <string name="bank_tab">مطالب</string>
     <string name="favorites_tab">نشان‌شده‌ها</string>
     <string name="stats_tab">آمار و پیشرفت</string>
     <string name="settings_tab">تنظیمات</string>
@@ -25,10 +28,10 @@
     <string name="last_read">آخرین مطالعه</string>
     <string name="never_read">هنوز مطالعه‌ای ثبت نشده</string>
 
-    <!-- Bank -->
-    <string name="bank_title">بانک سوالات</string>
+    <!-- Articles -->
+    <string name="bank_title">مطالب آموزشی</string>
     <string name="bank_subtitle">فصل‌ها و مواد قانون پایانه فروشگاهی</string>
-    <string name="search_hint">جستجو در متن سوالات…</string>
+    <string name="search_hint">جستجو در مطالب…</string>
     <string name="search_min_hint">برای جستجو حداقل ۲ نویسه وارد کنید</string>
     <string name="no_results">نتیجه‌ای یافت نشد</string>
     <string name="articles_count">%s ماده</string>
@@ -37,7 +40,7 @@
     <!-- Favorites -->
     <string name="favorites_title">نشان‌شده‌ها</string>
     <string name="favorites_empty_title">هنوز چیزی نشان نکرده‌ای</string>
-    <string name="favorites_empty_body">در صفحه‌ی سوالات، با دکمه‌ی نشان‌گذاری، مواد مهم را اینجا ذخیره کن تا همیشه در دسترس باشند.</string>
+    <string name="favorites_empty_body">در صفحه‌ی مطالب، با دکمه‌ی نشان‌گذاری، مواد مهم را ذخیره کن.</string>
     <string name="remove_bookmark">حذف نشان</string>
 
     <!-- Stats -->
@@ -78,6 +81,15 @@
     <string name="reader_finished_title">فصل کامل شد</string>
     <string name="reader_finished_body">تمام مواد این فصل را مرور کردی. ادامه بده تا پیشرفتت کامل شود.</string>
     <string name="back">بازگشت</string>
+
+    <!-- Support and exam foundations -->
+    <string name="exams_title">آزمون‌ها</string>
+    <string name="exams_coming_title">مرکز آزمون‌ها</string>
+    <string name="exams_coming_body">زیرساخت آزمون‌های فصل‌بندی‌شده در حال آماده‌سازی است. در این بخش آزمون‌ها، نتیجه و مرور پاسخ‌ها قرار می‌گیرند.</string>
+    <string name="support_title">پرسش و پاسخ</string>
+    <string name="support_login_title">گفت‌وگوی خصوصی با پشتیبانی</string>
+    <string name="support_login_body">برای ثبت پرسش و مشاهده پاسخ‌های پشتیبانی، ابتدا باید وارد حساب کاربری خود شوی. پیام‌ها فقط برای تو و تیم پشتیبانی قابل مشاهده خواهند بود.</string>
+    <string name="support_setup_note">اتصال حساب و سرویس پیام‌رسانی در مرحله بعدی توسعه فعال می‌شود.</string>
 
     <!-- A11y / misc -->
     <string name="cd_open_settings">باز کردن تنظیمات</string>
