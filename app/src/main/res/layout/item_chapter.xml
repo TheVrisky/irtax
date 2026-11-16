@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="11dp"
+    android:layout_marginBottom="12dp"
     app:cardBackgroundColor="@color/surface_glass_strong"
-    app:cardCornerRadius="19dp"
+    app:cardCornerRadius="22dp"
     app:cardElevation="0dp"
     app:strokeColor="@color/outline"
     app:strokeWidth="1dp">
@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="17dp">
+        android:padding="18dp">
         <FrameLayout
             android:layout_width="44dp"
             android:layout_height="44dp"
