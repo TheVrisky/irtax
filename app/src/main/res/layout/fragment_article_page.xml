@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_glass_card"
             android:orientation="vertical"
-            android:padding="@dimen/space_2xl">
+            android:padding="26dp">
 
             <!-- شماره سوال -->
             <TextView
@@ -64,7 +64,7 @@
             android:id="@+id/notes_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:orientation="vertical"
             android:visibility="gone"
             tools:visibility="visible" />
