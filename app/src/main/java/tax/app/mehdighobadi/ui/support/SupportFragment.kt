@@ -279,3 +279,31 @@ private fun AIMessageItem(message: String) {
         }
     }
 }
+
+private val IrtaxLightColors = lightColorScheme(
+    primary = Color(0xFF5146E5),
+    onPrimary = Color.White,
+    primaryContainer = Color(0xFFE8EAFE),
+    onPrimaryContainer = Color(0xFF3730A3),
+    secondary = Color(0xFF0F9D91),
+    background = Color(0xFFF5F7FC),
+    surface = Color(0xFFFFFFFF),
+    surfaceVariant = Color(0xFFF0F2FA),
+    onSurface = Color(0xFF182033),
+    onSurfaceVariant = Color(0xFF64708A),
+    outline = Color(0xFFE1E7F1)
+)
+
+private val IrtaxDarkColors = darkColorScheme(
+    primary = Color(0xFFA5B4FC),
+    onPrimary = Color(0xFF10162A),
+    primaryContainer = Color(0xFF29345C),
+    onPrimaryContainer = Color(0xFFD5DAFF),
+    secondary = Color(0xFF4DD6C5),
+    background = Color(0xFF0B1020),
+    surface = Color(0xFF18243A),
+    surfaceVariant = Color(0xFF202D46),
+    onSurface = Color(0xFFF0F3FB),
+    onSurfaceVariant = Color(0xFFB0BCD0),
+    outline = Color(0xFF2A3852)
+)
