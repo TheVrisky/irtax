@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingHorizontal="20dp"
-        android:paddingTop="24dp"
+        android:paddingHorizontal="18dp"
+        android:paddingTop="22dp"
         android:paddingBottom="130dp">
         <TextView
             style="@style/Text.irtax.Headline"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             app:cardBackgroundColor="@color/hero_gradient_start"
-            app:cardCornerRadius="25dp"
+            app:cardCornerRadius="27dp"
             app:cardElevation="3dp"
             app:strokeWidth="0dp">
             <LinearLayout
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             app:cardBackgroundColor="@color/surface_glass_strong"
-            app:cardCornerRadius="20dp"
+            app:cardCornerRadius="22dp"
             app:cardElevation="0dp"
             app:strokeColor="@color/outline"
             app:strokeWidth="1dp">
