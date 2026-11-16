@@ -10,6 +10,7 @@ import tax.app.mehdighobadi.databinding.ActivityMainBinding
 import tax.app.mehdighobadi.theme.ThemeManager
 import tax.app.mehdighobadi.ui.bank.BankFragment
 import tax.app.mehdighobadi.ui.exams.ExamsFragment
+import tax.app.mehdighobadi.ui.favorites.FavoritesFragment
 import tax.app.mehdighobadi.ui.home.HomeFragment
 import tax.app.mehdighobadi.ui.settings.SettingsFragment
 import tax.app.mehdighobadi.ui.support.SupportFragment
@@ -48,6 +49,10 @@ class MainActivity : AppCompatActivity() {
 
     fun selectTab(itemId: Int) {
         binding.bottomNav.selectedItemId = itemId
+    }
+
+    fun showFavorites() {
+        switchTo(FavoritesFragment())
     }
 
     private fun applyStatusBarContrast() {
