@@ -9,15 +9,12 @@ import tax.app.mehdighobadi.R
 import tax.app.mehdighobadi.databinding.ActivityMainBinding
 import tax.app.mehdighobadi.theme.ThemeManager
 import tax.app.mehdighobadi.ui.bank.BankFragment
-import tax.app.mehdighobadi.ui.favorites.FavoritesFragment
+import tax.app.mehdighobadi.ui.exams.ExamsFragment
 import tax.app.mehdighobadi.ui.home.HomeFragment
 import tax.app.mehdighobadi.ui.settings.SettingsFragment
-import tax.app.mehdighobadi.ui.stats.StatsFragment
+import tax.app.mehdighobadi.ui.support.SupportFragment
 
-/**
- * میزبان اصلی اپ: پنج تب (خانه، بانک سوالات، نشان‌شده‌ها، آمار، تنظیمات)
- * روی یک نوار پایین شناور و شیشه‌ای.
- */
+/** ناوبری اصلی نسخه ۲.۰.۲ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -34,14 +31,15 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             switchTo(HomeFragment())
+            binding.bottomNav.selectedItemId = R.id.nav_home
         }
 
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> { switchTo(HomeFragment()); true }
-                R.id.nav_bank -> { switchTo(BankFragment()); true }
-                R.id.nav_favorites -> { switchTo(FavoritesFragment()); true }
-                R.id.nav_stats -> { switchTo(StatsFragment()); true }
+                R.id.nav_exams -> { switchTo(ExamsFragment()); true }
+                R.id.nav_articles -> { switchTo(BankFragment()); true }
+                R.id.nav_support -> { switchTo(SupportFragment()); true }
                 R.id.nav_settings -> { switchTo(SettingsFragment()); true }
                 else -> false
             }
@@ -52,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.selectedItemId = itemId
     }
 
-    /** آیکون‌های نوار وضعیت با روشن/تاریکی هماهنگ شوند */
     private fun applyStatusBarContrast() {
         val isNight = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
             Configuration.UI_MODE_NIGHT_YES
