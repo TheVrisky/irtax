@@ -23,6 +23,22 @@
         android:text="@string/bank_subtitle"
         android:textSize="13sp" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_favorites"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/space_md"
+        android:fontFamily="@font/vazirmatn_medium"
+        android:text="@string/favorites_title"
+        android:textSize="12sp"
+        app:cornerRadius="@dimen/radius_pill"
+        app:icon="@drawable/ic_bookmark"
+        app:iconGravity="textStart"
+        app:iconTint="@color/primary"
+        app:strokeColor="@color/outline" />
+
     <!-- فیلد جستجوی شیشه‌ای -->
     <LinearLayout
         android:layout_width="match_parent"
