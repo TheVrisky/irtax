@@ -97,13 +97,6 @@
     <string name="support_login_body">برای ثبت پرسش و مشاهده پاسخ‌های پشتیبانی، ابتدا باید وارد حساب کاربری خود شوی. پیام‌ها فقط برای تو و تیم پشتیبانی قابل مشاهده خواهند بود.</string>
     <string name="support_setup_note">اتصال حساب و سرویس پیام‌رسانی در مرحله بعدی توسعه فعال می‌شود.</string>
 
-    <string name="infographic_title">اینفوگرافیک آموزشی</string>
-    <string name="infographic_invoice_flow">مسیر ساده صدور و ثبت صورتحساب الکترونیکی</string>
-    <string name="infographic_step_seller">صدور توسط فروشنده</string>
-    <string name="infographic_step_system">ثبت در سامانه مؤدیان</string>
-    <string name="infographic_step_buyer">مشاهده توسط خریدار</string>
-    <string name="infographic_source_note">نمای شماتیک آموزشی، بر اساس ساختار کلی ماده ۵ قانون پایانه‌های فروشگاهی.</string>
-
     <!-- A11y / misc -->
     <string name="cd_open_settings">باز کردن تنظیمات</string>
     <string name="cd_search">جستجو</string>
