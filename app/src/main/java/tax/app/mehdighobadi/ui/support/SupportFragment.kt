@@ -61,35 +61,7 @@ class SupportFragment : Fragment() {
 @Composable
 private fun SupportChatScreen() {
     val isDark = isSystemInDarkTheme()
-    val scheme = if (isDark) {
-        darkColorScheme(
-            primary = Color(0xFF9AA3FF),
-            onPrimary = Color(0xFF17192B),
-            primaryContainer = Color(0xFF30365F),
-            onPrimaryContainer = Color(0xFFE0E3FF),
-            secondary = Color(0xFF52D7C5),
-            surface = Color(0xFF171D2B),
-            surfaceVariant = Color(0xFF252D40),
-            onSurface = Color(0xFFE9ECF5),
-            onSurfaceVariant = Color(0xFFB3BBD0),
-            background = Color(0xFF101521),
-            onBackground = Color(0xFFE9ECF5)
-        )
-    } else {
-        lightColorScheme(
-            primary = Color(0xFF5B67F1),
-            onPrimary = Color.White,
-            primaryContainer = Color(0xFFE7E9FF),
-            onPrimaryContainer = Color(0xFF303AAE),
-            secondary = Color(0xFF119D91),
-            surface = Color(0xFFFFFFFF),
-            surfaceVariant = Color(0xFFF0F2FA),
-            onSurface = Color(0xFF1B1F2E),
-            onSurfaceVariant = Color(0xFF5B6273),
-            background = Color(0xFFF2F5FA),
-            onBackground = Color(0xFF1B1F2E)
-        )
-    }
+    val scheme = if (isDark) IrtaxDarkColors else IrtaxLightColors
 
     MaterialTheme(colorScheme = scheme) {
         Scaffold(
@@ -108,12 +80,7 @@ private fun SupportChatScreen() {
                     }
                 )
             },
-            bottomBar = {
-                ChatInputField(
-                    enabled = false,
-                    modifier = Modifier.padding(bottom = 92.dp)
-                )
-            }
+
         ) { innerPadding ->
             LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(innerPadding),
@@ -147,6 +114,7 @@ private fun SupportChatScreen() {
                         }
                     }
                 }
+                item { ChatInputField(enabled = false) }
             }
         }
     }
@@ -265,7 +233,7 @@ private fun UserMessageItem(message: String) {
 
 /** حباب پاسخ پشتیبانی؛ پیام واقعی در مرحله اتصال API دریافت می‌شود. */
 @Composable
-private fun AIMessageItem(message: String) {
+private fun SupportMessageItem(message: String) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
         Surface(
             color = MaterialTheme.colorScheme.surfaceVariant,
