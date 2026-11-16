@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app_gradient">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
@@ -19,27 +20,31 @@
         android:id="@+id/nav_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="14dp"
-        android:layout_marginBottom="13dp"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginBottom="16dp"
         app:cardBackgroundColor="@color/nav_glass"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="9dp"
+        app:cardCornerRadius="27dp"
+        app:cardElevation="12dp"
         app:strokeColor="@color/outline"
         app:strokeWidth="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
-            android:layout_height="68dp"
+            android:layout_height="72dp"
             android:background="@android:color/transparent"
             app:backgroundTint="@android:color/transparent"
             app:elevation="0dp"
-            app:itemIconSize="22dp"
-            app:itemIconTint="@color/nav_item_tint"
-            app:itemTextColor="@color/nav_item_tint"
             app:itemActiveIndicatorStyle="@style/Widget.irtax.NavIndicator"
+            app:itemHorizontalTranslationEnabled="false"
+            app:itemIconSize="21dp"
+            app:itemIconTint="@color/nav_item_tint"
+            app:itemTextAppearanceActive="@style/TextAppearance.irtax.BottomNavigation.Active"
+            app:itemTextAppearanceInactive="@style/TextAppearance.irtax.BottomNavigation.Inactive"
+            app:itemTextColor="@color/nav_item_tint"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/menu_bottom_nav" />
     </com.google.android.material.card.MaterialCardView>
