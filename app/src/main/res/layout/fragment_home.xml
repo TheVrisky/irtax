@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
     android:fillViewport="true"
     android:scrollbars="none">
 
@@ -12,55 +13,67 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingHorizontal="@dimen/screen_pad"
-        android:paddingTop="@dimen/space_2xl"
-        android:paddingBottom="120dp"
-        android:clipToPadding="false">
+        android:paddingHorizontal="20dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="132dp">
 
-        <!-- هدر مینیمال: فقط نام اپ + آیکون تنظیمات -->
         <LinearLayout
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_app_name"
-                style="@style/Text.irtax.Headline"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/app_name" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_app_name"
+                    style="@style/Text.irtax.Headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="یادگیری قانون، ساده‌تر از همیشه"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <ImageButton
                 android:id="@+id/btn_settings"
-                android:layout_width="@dimen/icon_btn"
-                android:layout_height="@dimen/icon_btn"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:background="@drawable/bg_icon_circle"
                 android:contentDescription="@string/cd_open_settings"
+                android:padding="13dp"
                 android:src="@drawable/ic_settings"
                 app:tint="@color/text_secondary" />
-
         </LinearLayout>
 
-        <!-- Hero: ادامه مطالعه / شروع آزمون -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/hero_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_2xl"
-            android:background="@drawable/bg_hero_card"
-            app:cardBackgroundColor="@color/hero_gradient_start"
-            app:cardCornerRadius="@dimen/radius_card_lg"
-            app:cardElevation="12dp"
+            android:layout_marginTop="22dp"
+            android:background="@color/primary"
+            app:cardBackgroundColor="@color/primary"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="5dp"
             app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/space_2xl">
+                android:padding="22dp">
 
                 <TextView
                     android:id="@+id/tv_hero_kicker"
@@ -68,53 +81,52 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_chip_glass"
                     android:fontFamily="@font/vazirmatn_medium"
-                    android:paddingHorizontal="14dp"
+                    android:paddingHorizontal="13dp"
                     android:paddingVertical="6dp"
                     android:text="@string/home_greeting"
                     android:textColor="@color/on_primary"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/tv_hero_title"
-                    style="@style/Text.irtax.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_lg"
-                    android:lineSpacingMultiplier="1.5"
+                    android:layout_marginTop="17dp"
+                    android:fontFamily="@font/vazirmatn_bold"
+                    android:lineSpacingMultiplier="1.4"
                     android:textColor="@color/on_primary"
                     android:textSize="19sp"
-                    tools:text="فصل دوم - تکالیف اشخاص مشمول" />
+                    tools:text="فصل دوم؛ تکالیف اشخاص مشمول" />
 
                 <TextView
                     android:id="@+id/tv_hero_subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_xs"
-                    android:alpha="0.85"
+                    android:layout_marginTop="5dp"
+                    android:alpha="0.88"
                     android:fontFamily="@font/vazirmatn"
-                    android:lineSpacingMultiplier="1.7"
                     android:textColor="@color/on_primary"
-                    android:textSize="13sp"
-                    tools:text="ماده ۵ از ۲۴ ماده" />
+                    android:textSize="12sp"
+                    tools:text="ماده ۵ · آخرین مطالعه" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_xl"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_hero_cta"
                         android:layout_width="wrap_content"
-                        android:layout_height="48dp"
+                        android:layout_height="46dp"
                         android:fontFamily="@font/vazirmatn_semibold"
-                        android:paddingHorizontal="24dp"
+                        android:paddingHorizontal="19dp"
                         android:text="@string/hero_cta"
                         android:textColor="@color/primary_deep"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         app:backgroundTint="@color/on_primary"
-                        app:cornerRadius="@dimen/radius_pill"
+                        app:cornerRadius="16dp"
                         app:icon="@drawable/ic_arrow_start"
                         app:iconGravity="textEnd"
                         app:iconTint="@color/primary_deep" />
@@ -128,237 +140,333 @@
                         android:id="@+id/tv_hero_percent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:alpha="0.95"
-                        android:fontFamily="@font/vazirmatn_semibold"
+                        android:fontFamily="@font/vazirmatn_bold"
                         android:textColor="@color/on_primary"
                         android:textSize="22sp"
                         tools:text="۳۵٪" />
-
                 </LinearLayout>
 
                 <com.google.android.material.progressindicator.LinearProgressIndicator
                     android:id="@+id/hero_progress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_md"
+                    android:layout_marginTop="14dp"
                     app:indicatorColor="@color/on_primary"
-                    app:trackColor="#33FFFFFF"
-                    app:trackCornerRadius="4dp"
-                    app:trackThickness="6dp" />
-
+                    app:trackColor="#35FFFFFF"
+                    app:trackCornerRadius="5dp"
+                    app:trackThickness="5dp" />
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- خلاصه آمار هوشمند: کارت‌های شیشه‌ای کوچک -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_lg"
+            android:layout_marginTop="17dp"
             android:baselineAligned="false"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/bg_glass_card"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/space_lg">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:importantForAccessibility="no"
-                    android:src="@drawable/ic_doc"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:id="@+id/stat_articles"
-                    android:layout_width="wrap_content"
+                app:cardBackgroundColor="@color/surface_glass_strong"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/outline"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_sm"
-                    android:fontFamily="@font/vazirmatn_bold"
-                    android:textColor="@color/text_primary"
-                    android:textSize="19sp"
-                    tools:text="۲۴" />
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="15dp">
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:src="@drawable/ic_doc"
+                        app:tint="@color/primary" />
+                    <TextView
+                        android:id="@+id/stat_articles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:fontFamily="@font/vazirmatn_bold"
+                        android:textColor="@color/text_primary"
+                        android:textSize="19sp"
+                        tools:text="۲۴" />
+                    <TextView
+                        style="@style/Text.irtax.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stat_articles"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                <TextView
-                    style="@style/Text.irtax.Caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stat_articles" />
+            <Space android:layout_width="9dp" android:layout_height="1dp" />
 
-            </LinearLayout>
-
-            <Space android:layout_width="12dp" android:layout_height="1dp" />
-
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/bg_glass_card"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/space_lg">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:importantForAccessibility="no"
-                    android:src="@drawable/ic_check"
-                    app:tint="@color/success" />
-
-                <TextView
-                    android:id="@+id/stat_read"
-                    android:layout_width="wrap_content"
+                app:cardBackgroundColor="@color/surface_glass_strong"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/outline"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_sm"
-                    android:fontFamily="@font/vazirmatn_bold"
-                    android:textColor="@color/text_primary"
-                    android:textSize="19sp"
-                    tools:text="۸" />
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="15dp">
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:src="@drawable/ic_check"
+                        app:tint="@color/success" />
+                    <TextView
+                        android:id="@+id/stat_read"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:fontFamily="@font/vazirmatn_bold"
+                        android:textColor="@color/text_primary"
+                        android:textSize="19sp"
+                        tools:text="۸" />
+                    <TextView
+                        style="@style/Text.irtax.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stat_read"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                <TextView
-                    style="@style/Text.irtax.Caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stat_read" />
-
-            </LinearLayout>
-
-            <Space android:layout_width="12dp" android:layout_height="1dp" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/bg_glass_card"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/space_lg">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:importantForAccessibility="no"
-                    android:src="@drawable/ic_bookmark_filled"
-                    app:tint="@color/warning" />
-
-                <TextView
-                    android:id="@+id/stat_favorites"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_sm"
-                    android:fontFamily="@font/vazirmatn_bold"
-                    android:textColor="@color/text_primary"
-                    android:textSize="19sp"
-                    tools:text="۳" />
-
-                <TextView
-                    style="@style/Text.irtax.Caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stat_favorites" />
-
-            </LinearLayout>
-
+            
         </LinearLayout>
 
-        <!-- پیشنهاد هوشمند -->
         <LinearLayout
             android:id="@+id/suggestion_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_lg"
+            android:layout_marginTop="15dp"
             android:background="@drawable/bg_glass_card"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="@dimen/space_xl">
-
+            android:padding="17dp">
             <FrameLayout
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:background="@drawable/bg_circle_warning">
-
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
                     android:layout_gravity="center"
-                    android:importantForAccessibility="no"
                     android:src="@drawable/ic_bulb"
                     app:tint="@color/warning" />
-
             </FrameLayout>
-
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_lg"
+                android:layout_marginStart="12dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
                 <TextView
                     style="@style/Text.irtax.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/smart_suggestion_title"
-                    android:textSize="15sp" />
-
+                    android:textSize="14sp" />
                 <TextView
                     android:id="@+id/tv_suggestion_text"
                     style="@style/Text.irtax.Caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
                     android:textColor="@color/text_secondary"
-                    android:textSize="13sp"
+                    android:textSize="11sp"
                     tools:text="فصل سوم را هنوز مرور نکرده‌ای" />
-
             </LinearLayout>
-
             <TextView
                 android:id="@+id/btn_practice"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="@dimen/space_md"
+                android:layout_height="38dp"
+                android:layout_marginStart="8dp"
                 android:background="@drawable/bg_pill_primary"
                 android:fontFamily="@font/vazirmatn_semibold"
                 android:gravity="center"
-                android:paddingHorizontal="18dp"
+                android:paddingHorizontal="13dp"
                 android:text="@string/practice_now"
                 android:textColor="@color/on_primary"
-                android:textSize="13sp" />
-
+                android:textSize="11sp" />
         </LinearLayout>
 
-        <!-- دسترسی سریع -->
-        <TextView
-            style="@style/Text.irtax.Title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_2xl"
-            android:text="@string/quick_access"
-            android:textSize="16sp" />
+            android:layout_marginTop="25dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <TextView
+                style="@style/Text.irtax.Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/quick_access"
+                android:textSize="16sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="فصل‌ها"
+                android:textColor="@color/text_tertiary"
+                android:textSize="11sp" />
+        </LinearLayout>
 
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_md"
+            android:layout_marginTop="11dp"
             android:clipToPadding="false"
             android:overScrollMode="never"
             android:scrollbars="none">
-
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group_chapters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:chipSpacingHorizontal="10dp"
+                app:chipSpacingHorizontal="9dp"
                 app:singleLine="true" />
-
         </HorizontalScrollView>
 
-    </LinearLayout>
+        <TextView
+            style="@style/Text.irtax.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="@string/infographic_title"
+            android:textSize="16sp" />
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            app:cardBackgroundColor="@color/surface_glass_strong"
+            app:cardCornerRadius="22dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/outline"
+            app:strokeWidth="1dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/infographic_invoice_flow"
+                    android:textColor="@color/text_primary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="17dp"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:background="@drawable/bg_circle_warning"
+                            android:gravity="center"
+                            android:text="۱"
+                            android:textColor="@color/warning"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center"
+                            android:text="@string/infographic_step_seller"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="←"
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="18sp" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:background="@drawable/bg_circle_primary"
+                            android:gravity="center"
+                            android:text="۲"
+                            android:textColor="@color/primary"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center"
+                            android:text="@string/infographic_step_system"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="←"
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="18sp" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:background="@drawable/bg_circle_success"
+                            android:gravity="center"
+                            android:text="۳"
+                            android:textColor="@color/success"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center"
+                            android:text="@string/infographic_step_buyer"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/infographic_source_note"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="9sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 </androidx.core.widget.NestedScrollView>

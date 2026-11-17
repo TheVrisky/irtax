@@ -2,6 +2,7 @@ package tax.app.mehdighobadi.theme
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.Configuration
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
@@ -85,6 +86,17 @@ class ThemeManager(context: Context) {
     }
 
     companion object {
+        /** Apply the persisted font scale to every app Activity. */
+        fun wrapContext(base: Context): Context {
+            val preferences = base.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            val size = preferences.getInt(KEY_FONT_SIZE, DEFAULT_FONT_SIZE)
+                .coerceIn(MIN_FONT_SIZE, MAX_FONT_SIZE)
+            val configuration = Configuration(base.resources.configuration).apply {
+                fontScale = size.toFloat() / DEFAULT_FONT_SIZE.toFloat()
+            }
+            return base.createConfigurationContext(configuration)
+        }
+
         private const val PREFS_NAME = "irtax_prefs_v2"
         private const val KEY_DARK_MODE = "dark_mode"
         private const val KEY_ACCENT = "accent"

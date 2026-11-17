@@ -21,6 +21,7 @@ import tax.app.mehdighobadi.ui.common.addPressScale
 import tax.app.mehdighobadi.ui.common.enterStaggered
 import tax.app.mehdighobadi.ui.common.toFaDigits
 import tax.app.mehdighobadi.ui.reader.ReaderActivity
+import tax.app.mehdighobadi.ui.main.MainActivity
 
 /** بانک سوالات: فصل‌ها با پیشرفت هر فصل + جستجوی زنده در متن سوالات */
 class BankFragment : Fragment() {
@@ -41,6 +42,10 @@ class BankFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.btnFavorites.setOnClickListener {
+            (activity as? MainActivity)?.showFavorites()
+        }
 
         binding.rvBank.layoutManager = LinearLayoutManager(requireContext())
         binding.rvBank.adapter = ChapterAdapter(repo, themeManager) { chapterId, index ->

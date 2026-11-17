@@ -10,6 +10,16 @@
         <item name="cornerSize">100dp</item>
     </style>
 
+    <style name="TextAppearance.irtax.BottomNavigation.Active" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/vazirmatn_semibold</item>
+    </style>
+
+    <style name="TextAppearance.irtax.BottomNavigation.Inactive" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:textSize">9sp</item>
+        <item name="fontFamily">@font/vazirmatn_medium</item>
+    </style>
+
     <style name="Widget.irtax.Segmented" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:textSize">13sp</item>
         <item name="fontFamily">@font/vazirmatn_medium</item>

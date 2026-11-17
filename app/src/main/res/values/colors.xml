@@ -1,60 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ===== Base ===== -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
-    <!-- ===== Light palette (soft gray-blue + indigo accent) ===== -->
-    <color name="background">#F2F5FA</color>
-    <color name="bg_gradient_start">#F0F3FA</color>
-    <color name="bg_gradient_end">#E6EDF8</color>
+    <!-- Light: clean editorial surfaces with indigo and teal accents -->
+    <color name="background">#F5F7FC</color>
+    <color name="bg_gradient_start">#F8FAFF</color>
+    <color name="bg_gradient_end">#EDF1FA</color>
+    <color name="surface_glass">#E8FFFFFF</color>
+    <color name="surface_glass_strong">#FFFFFFFF</color>
+    <color name="surface_solid">#FFFFFFFF</color>
+    <color name="surface_tinted">#F0F2FA</color>
 
-    <color name="surface_glass">#C9FFFFFF</color>
-    <color name="surface_glass_strong">#E6FFFFFF</color>
-    <color name="surface_solid">#FFFFFF</color>
-    <color name="surface_tinted">#F0F3FB</color>
+    <color name="text_primary">#182033</color>
+    <color name="text_secondary">#64708A</color>
+    <color name="text_tertiary">#929DB1</color>
+    <color name="outline">#E1E7F1</color>
+    <color name="outline_strong">#CBD4E4</color>
 
-    <color name="text_primary">#1B1F2E</color>
-    <color name="text_secondary">#5B6273</color>
-    <color name="text_tertiary">#9AA0B2</color>
-    <color name="outline">#DFE5F0</color>
-    <color name="outline_strong">#CBD3E2</color>
-
-    <!-- ===== Primary accent (indigo / نیلی) ===== -->
-    <color name="primary">#5B67F1</color>
-    <color name="primary_deep">#4650D8</color>
+    <color name="primary">#5146E5</color>
+    <color name="primary_deep">#3730A3</color>
     <color name="on_primary">#FFFFFF</color>
-    <color name="primary_container">#E4E7FE</color>
-    <color name="on_primary_container">#2B33A8</color>
-    <color name="primary_soft_alpha">#1A5B67F1</color>
+    <color name="primary_container">#E8EAFE</color>
+    <color name="on_primary_container">#3730A3</color>
+    <color name="primary_soft_alpha">#1A5146E5</color>
 
-    <!-- ===== Secondary accent (teal) ===== -->
-    <color name="secondary">#14B8A6</color>
-    <color name="secondary_container">#D3F5EF</color>
-    <color name="on_secondary_container">#0B6E62</color>
+    <color name="secondary">#0F9D91</color>
+    <color name="secondary_container">#D8F5F0</color>
+    <color name="on_secondary_container">#086B63</color>
 
-    <!-- ===== Hero gradient ===== -->
-    <color name="hero_gradient_start">#5B67F1</color>
-    <color name="hero_gradient_end">#7C8CF8</color>
+    <color name="hero_gradient_start">#4338CA</color>
+    <color name="hero_gradient_end">#6D5CE7</color>
 
-    <!-- ===== Semantic ===== -->
-    <color name="success">#1FA97A</color>
-    <color name="success_container">#D8F4E8</color>
-    <color name="danger">#E5484D</color>
-    <color name="danger_container">#FCE4E5</color>
-    <color name="warning">#F0A01F</color>
-    <color name="warning_container">#FDEFD9</color>
+    <color name="success">#168A67</color>
+    <color name="success_container">#DDF5EA</color>
+    <color name="danger">#D94352</color>
+    <color name="danger_container">#FCE8EA</color>
+    <color name="warning">#D88B18</color>
+    <color name="warning_container">#FFF1D8</color>
 
-    <!-- ===== Alternative accents ===== -->
-    <color name="primary_teal">#10A99F</color>
-    <color name="primary_teal_container">#D3F5F0</color>
+    <color name="primary_teal">#0F9D91</color>
+    <color name="primary_teal_container">#D8F5F0</color>
     <color name="primary_violet">#8B5CF6</color>
-    <color name="primary_violet_container">#ECE4FE</color>
+    <color name="primary_violet_container">#EEE7FF</color>
 
-    <!-- ===== Nav bar glass ===== -->
-    <color name="nav_glass">#D9FFFFFF</color>
-    <color name="nav_indicator">#E4E7FE</color>
-
-    <!-- ===== Launcher ===== -->
-    <color name="launcher_background">#5B67F1</color>
+    <color name="nav_glass">#F2FFFFFF</color>
+    <color name="nav_indicator">#E7E9FF</color>
+    <color name="launcher_background">#5146E5</color>
 </resources>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827"><title>پنل مدیریت ایرتکس | 2.0.2</title>
+<link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+<a class="brand" href="#"><span class="brand-mark">ا</span><span><b>ایرتکس</b><small>پنل مدیریت</small></span></a>
+<div class="eyebrow">مدیریت سامانه</div>
+<nav id="sideNav">
+<button class="nav active" data-page="overview">⌂ <span>خانه</span></button>
+<button class="nav" data-page="exams">▤ <span>آزمون‌ها</span></button>
+<button class="nav" data-page="articles">▧ <span>مطالب</span></button>
+<button class="nav" data-page="support">◌ <span>پاسخ‌گویی</span></button>
+<button class="nav" data-page="infographics">▦ <span>اینفوگرافیک‌ها</span></button>
+<button class="nav" data-page="users">♙ <span>کاربران</span></button>
+<button class="nav" data-page="categories">☷ <span>دسته‌بندی‌ها</span></button>
+<button class="nav" data-page="settings">⚙ <span>تنظیمات</span></button>
+</nav>
+<div class="profile"><span class="avatar">A</span><span><b>مدیر سامانه</b><small>حساب مدیریت</small></span><i></i></div>
+</aside>
+<main>
+<header class="topbar"><div><small>IRTAX / ADMIN</small><h1 id="pageTitle">نمای کلی</h1></div><div class="actions"><span class="demo">پیش‌نمایش رابط کاربری</span><button id="theme" class="icon-btn">◐</button></div></header>
+<section class="page active" id="page-overview">
+<div class="hero"><div><small>داشبورد مدیریتی</small><h2>به پنل ایرتکس خوش آمدید</h2><p>وضعیت محتوا، آزمون‌ها و پیام‌های پشتیبانی را از یک نقطه مدیریت کنید.</p></div><div class="orb">IR</div></div>
+<div class="stats">
+<article><span>کاربران ثبت‌شده</span><b>۱٬۲۸۴</b><small class="good">↑ ۸٪ نسبت به ماه قبل</small></article>
+<article><span>مطالب منتشرشده</span><b>۸۶</b><small>در ۹ دسته‌بندی</small></article>
+<article><span>آزمون‌های فعال</span><b>۱۲</b><small>۳ آزمون در پیش‌نویس</small></article>
+<article><span>درخواست‌های پاسخ‌نداده</span><b>۷</b><small class="warn">نیازمند بررسی</small></article>
+</div>
+<div class="columns">
+<div class="panel"><div class="panel-title"><div><h3>فعالیت‌های اخیر</h3><p>آخرین رویدادهای سامانه</p></div><span class="tag">نمونه</span></div>
+<div class="activity"><i class="violet"></i><div><b>مطلب جدید ایجاد شد</b><small>راهنمای ثبت صورتحساب الکترونیکی · ۱۲ دقیقه پیش</small></div></div>
+<div class="activity"><i class="teal"></i><div><b>کاربر جدید ثبت‌نام کرد</b><small>کاربر شماره ۱۲۸۴ · ۴۸ دقیقه پیش</small></div></div>
+<div class="activity"><i class="amber"></i><div><b>درخواست پشتیبانی دریافت شد</b><small>پرسش درباره ماده ۱۱ · ۱ ساعت پیش</small></div></div>
+</div>
+<div class="panel"><div class="panel-title"><div><h3>دسترسی سریع</h3><p>کارهای پرتکرار</p></div></div>
+<button class="quick" data-page="articles">＋ <span><b>افزودن مطلب</b><small>ساخت محتوای تازه</small></span></button>
+<button class="quick" data-page="exams">＋ <span><b>ساخت آزمون</b><small>تعریف آزمون جدید</small></span></button>
+<button class="quick" data-page="support">↗ <span><b>پاسخ به کاربران</b><small>مشاهده پیام‌های دریافتی</small></span></button>
+</div></div>
+</section>
+<section class="page" id="page-exams"><div class="panel empty"><div class="empty-icon">▤</div><h2>مدیریت آزمون‌ها</h2><p>ایجاد آزمون، بانک پرسش‌ها، زمان‌بندی و انتشار آزمون در این بخش قرار می‌گیرد.</p><button class="primary" data-notice="اتصال به API در مرحله بک‌اند انجام می‌شود.">ایجاد آزمون جدید</button></div></section>
+<section class="page" id="page-articles">
+<div class="toolbar"><div><h2>مدیریت مطالب</h2><p>محتوای آموزشی و بانک پرسش‌ها</p></div><button class="primary" id="newArticle">＋ مطلب جدید</button></div>
+<div class="panel import"><div><b>ورود گروهی از فایل TXT</b><p>فایل متنی را انتخاب کنید تا پیش‌نمایش آن آماده شود.</p></div><label class="upload">انتخاب فایل TXT<input type="file" id="txtFile" accept=".txt,text/plain" hidden></label><div id="filePreview" class="file-preview">هنوز فایلی انتخاب نشده است.</div></div>
+<div class="panel table-panel"><div class="panel-title"><div><h3>مطالب اخیر</h3><p>داده‌های نمونه، متصل به پایگاه داده نیست</p></div><input id="articleSearch" class="search" placeholder="جستجوی مطلب..."></div>
+<div class="table-wrap"><table><thead><tr><th>عنوان</th><th>دسته‌بندی</th><th>وضعیت</th><th>آخرین تغییر</th></tr></thead><tbody id="articleRows">
+<tr><td>آشنایی با سامانه مؤدیان</td><td>آموزشی</td><td><span class="status published">منتشرشده</span></td><td>امروز</td></tr>
+<tr><td>قواعد صدور صورتحساب</td><td>قوانین</td><td><span class="status draft">پیش‌نویس</span></td><td>دیروز</td></tr>
+<tr><td>نکات ماده ۱۱</td><td>بخشنامه‌ها</td><td><span class="status published">منتشرشده</span></td><td>۳ روز پیش</td></tr>
+</tbody></table></div></div>
+</section>
+<section class="page" id="page-support">
+<div class="toolbar"><div><h2>درخواست‌های پشتیبانی</h2><p>پیام‌های خصوصی کاربران</p></div><select id="supportFilter" class="search"><option value="all">همه درخواست‌ها</option><option value="new">جدید</option><option value="review">در حال بررسی</option><option value="answered">پاسخ داده‌شده</option></select></div>
+<div id="supportList" class="support-list">
+<article class="support-row" data-status="new"><div class="user"><span class="avatar">م</span><span><b>محمد رضایی</b><small>کاربر #۱۲۸۱</small></span></div><div class="question"><b>در مورد مهلت ارسال صورتحساب</b><p>سلام، برای ارسال صورتحساب الکترونیکی بعد از پایان مهلت چه راهکاری وجود دارد؟</p><span class="status new">جدید</span></div><button class="reply" data-reply="0">مشاهده و پاسخ</button></article>
+<article class="support-row" data-status="review"><div class="user"><span class="avatar teal">س</span><span><b>سارا احمدی</b><small>کاربر #۱۲۷۶</small></span></div><div class="question"><b>ابهام در ماده ۱۱</b><p>تفاوت تبصره اول و دوم ماده ۱۱ را چطور باید در نظر بگیریم؟</p><span class="status review">در حال بررسی</span></div><button class="reply" data-reply="1">مشاهده و پاسخ</button></article>
+<article class="support-row" data-status="answered"><div class="user"><span class="avatar amber">ع</span><span><b>علی کریمی</b><small>کاربر #۱۲۶۹</small></span></div><div class="question"><b>ثبت حساب تجاری</b><p>آیا برای هر شعبه باید حساب تجاری جداگانه معرفی شود؟</p><span class="status answered">پاسخ داده‌شده</span></div><button class="reply" data-reply="2">مشاهده گفتگو</button></article>
+</div></section>
+<section class="page" id="page-infographics"><div class="panel empty"><div class="empty-icon">▦</div><h2>مدیریت اینفوگرافیک‌ها</h2><p>بارگذاری تصویر، عنوان، توضیحات و انتشار اینفوگرافیک‌ها برای نمایش در صفحه خانه اپلیکیشن.</p><button class="primary" data-notice="بارگذاری واقعی پس از اتصال API فعال می‌شود.">افزودن اینفوگرافیک</button></div></section>
+<section class="page" id="page-users"><div class="panel empty"><div class="empty-icon">♙</div><h2>مدیریت کاربران</h2><p>جستجو، مشاهده وضعیت حساب و مدیریت دسترسی کاربران.</p></div></section>
+<section class="page" id="page-categories"><div class="panel empty"><div class="empty-icon">☷</div><h2>دسته‌بندی محتوا</h2><p>ساخت و مرتب‌سازی دسته‌بندی‌های مطالب و آزمون‌ها.</p></div></section>
+<section class="page" id="page-settings"><div class="panel empty"><div class="empty-icon">⚙</div><h2>تنظیمات سامانه</h2><p>تنظیمات عمومی، وضعیت سرویس و مدیریت نقش‌های مدیریتی.</p></div></section>
+<footer>IRtax Admin · Version 2.0.2 · رابط نمایشی اولیه، بدون اتصال به سرور</footer>
+</main></div>
+<nav class="mobile-nav"><button class="active" data-page="overview">⌂<small>خانه</small></button><button data-page="exams">▤<small>آزمون‌ها</small></button><button data-page="articles">▧<small>مطالب</small></button><button data-page="support">◌<small>پاسخ‌ها</small></button><button data-page="settings">⚙<small>تنظیمات</small></button></nav>
+<dialog id="replyDialog"><form method="dialog" class="dialog-head"><div><small>SUPPORT INBOX</small><h2 id="dialogTitle">جزئیات درخواست</h2></div><button class="icon-btn">×</button></form><div class="dialog-body"><div id="fullQuestion" class="full-question"></div><label for="replyText">پاسخ پشتیبانی</label><textarea id="replyText" rows="5" placeholder="پاسخ خود را بنویسید..."></textarea><div class="dialog-actions"><button class="secondary" id="markReview">در حال بررسی</button><button class="primary" id="sendReply">ثبت پاسخ</button></div><p class="warning-note">در این پیش‌نمایش، پاسخ فقط در همین صفحه شبیه‌سازی می‌شود و به کاربر واقعی ارسال نمی‌شود.</p></div></dialog>
+<div id="toast" class="toast"></div><script src="assets/admin.js"></script>
+</body></html>

@@ -26,6 +26,10 @@ import tax.app.mehdighobadi.ui.common.toFaDigits
  */
 class ReaderActivity : AppCompatActivity() {
 
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(ThemeManager.wrapContext(newBase))
+    }
+
     private lateinit var binding: ActivityReaderBinding
     private lateinit var themeManager: ThemeManager
     private lateinit var repo: AppRepository

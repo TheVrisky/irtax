@@ -106,6 +106,12 @@ class SettingsFragment : Fragment() {
             themeManager.fontSize = size
             binding.tvFontValue.text = size.toFaDigits()
         }
+        binding.sliderFont.addOnSliderTouchListener(object : com.google.android.material.slider.Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: com.google.android.material.slider.Slider) = Unit
+            override fun onStopTrackingTouch(slider: com.google.android.material.slider.Slider) {
+                activity?.recreate()
+            }
+        })
 
         binding.switchReduceMotion.isChecked = themeManager.reduceMotion
         binding.switchReduceMotion.setOnCheckedChangeListener { _, checked ->
