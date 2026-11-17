@@ -1,7 +1,7 @@
 package tax.app.mehdighobadi.theme
 
 import android.app.Activity
-import android.content.Context
+import android.content.Context\nimport android.content.res.Configuration
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
