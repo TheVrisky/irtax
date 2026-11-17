@@ -72,7 +72,6 @@ class HomeFragment : Fragment() {
         // آمار هوشمند با شمارنده‌ی متحرک
         binding.statArticles.animateCounter(total, motion)
         binding.statRead.animateCounter(read, motion)
-        binding.statFavorites.animateCounter(repo.favoriteRefs().size, motion)
 
         // Hero: ادامه مطالعه یا شروع آزمون
         val lastRef = repo.lastReadRef()
