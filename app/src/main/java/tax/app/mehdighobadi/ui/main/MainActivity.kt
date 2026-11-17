@@ -18,7 +18,11 @@ import tax.app.mehdighobadi.ui.support.SupportFragment
 /** ناوبری اصلی نسخه ۲.۰.۲ */
 class MainActivity : AppCompatActivity() {
 
-    override fun attachBaseContext(newBase: android.content.Context) {\n        super.attachBaseContext(ThemeManager.wrapContext(newBase))\n    }\n\n    private lateinit var binding: ActivityMainBinding
+    override fun attachBaseContext(newBase: android.content.Context) {
+        super.attachBaseContext(ThemeManager.wrapContext(newBase))
+    }
+
+    private lateinit var binding: ActivityMainBinding
     private lateinit var themeManager: ThemeManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
