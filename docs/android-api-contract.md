@@ -118,3 +118,69 @@ The current local content model is hierarchical and must remain so:
 - notes (تبصره‌ها and notes)
 
 The current reader, bookmarks and reading progress identify content using chapter ID plus article index. The server model must provide stable IDs for laws, chapters and articles; client mapping must preserve this local navigation identity or migrate bookmarks/progress explicitly. A future law endpoint should return a versioned document tree, its publication/effective dates and amendment metadata. Do not flatten sections or notes into the article body. Do not replace the existing local TaxData until the remote tree has been validated and cached. PDF/TXT imports must remain draft until a human reviews and publishes the extracted legal text.
+
+
+## Active hierarchical legal document
+
+### Endpoint
+- `GET /api/v1/legal-documents/active`
+- Returns the currently published and approved legal document in the standard `{ data, message, errors }` envelope.
+- The Android client stores the complete document JSON in SQLite. On network/API failure it tries the last cached document, then falls back to the bundled local `TaxData`.
+
+### Required hierarchy
+`document → chapters → articles → sections → notes`
+
+The transport DTO fields are:
+- Document: `id`, `title`, optional `version`, `effective_at`, `published_at`, `chapters`.
+- Chapter: `id`, `client_key`, `title`, `sort_order`, `articles`.
+- Article: `id`, `number`, `content`, `sort_order`, `sections`, `notes`.
+- Section: `id`, `title`, `content`, `sort_order`.
+- Note: `id`, `label`, `content`, `sort_order`.
+
+### Example payload
+```json
+{
+  "data": {
+    "id": "law-tax-invoice",
+    "title": "قانون پایانه‌های فروشگاهی و سامانه مؤدیان",
+    "version": "1404.04.08",
+    "effective_at": "2025-06-29",
+    "published_at": "2026-11-18",
+    "chapters": [
+      {
+        "id": "chapter-1",
+        "client_key": "fasl1",
+        "title": "فصل اول - تعاریف و اصطلاحات",
+        "sort_order": 1,
+        "articles": [
+          {
+            "id": "article-1",
+            "number": "ماده ۱",
+            "content": "متن اصلی ماده",
+            "sort_order": 1,
+            "sections": [
+              { "id": "section-1a", "title": "الف - سازمان", "content": "متن بند", "sort_order": 1 }
+            ],
+            "notes": [
+              { "id": "note-1", "label": "تبصره ۱", "content": "متن تبصره", "sort_order": 1 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "message": null,
+  "errors": null
+}
+```
+
+### Data integrity and user progress
+- `client_key` must be non-empty and unique per document. To preserve existing reading history and bookmarks, use the existing chapter keys where applicable (currently `fasl1` through `fasl5`).
+- Preserve the relative order of existing articles in each chapter. The current local reading-progress/bookmark store uses chapter key plus article position; inserting or reordering existing articles can otherwise point a saved position at the wrong article.
+- Keep stable server IDs for documents, chapters, articles, sections and notes for future migrations and deep links.
+- Do not silently publish OCR/import output. Imported PDF/TXT material must be draft, manually reviewed, versioned and only then published.
+- Keep prior document versions and amendment metadata; the app displays only the active published version and retains the last successfully cached version offline.
+- A legal-document response must not mix unrelated laws into this document tree. Each law/document is versioned independently.
+
+### Implementation status
+Android has the typed DTOs, hierarchical mapping, SQLite JSON cache and bank-screen loading with cache/local fallback. The Laravel endpoint and publishing/import workflow still need to be implemented on the server.
