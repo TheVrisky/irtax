@@ -51,7 +51,7 @@ class AuthRepository(context: Context) {
                 AuthResult.Failure("اتصال به اینترنت برقرار نشد.")
             } catch (_: HttpException) {
                 AuthResult.Failure("پاسخ سرور قابل پردازش نیست.")
-            } catch (_: IllegalStateException) {
+            } catch (_: IllegalArgumentException) {
                 AuthResult.Failure("نشانی امن API تنظیم نشده است.")
             } catch (_: Exception) {
                 AuthResult.Failure("خطای غیرمنتظره هنگام ورود رخ داد.")
