@@ -67,11 +67,35 @@ class LegalDocumentRepository(context: Context) {
         if (document.id.isBlank() || document.chapters.isEmpty()) return null
         val keys = document.chapters.map { it.clientKey }
         if (keys.any { it.isBlank() } || keys.distinct().size != keys.size) return null
-        val chapters = document.chapters.sortedBy { it.sortOrder }.map { chapter ->
+        val orderedRemoteChapters = document.chapters.sortedBy { it.sortOrder }
+        val bundledChapters = TaxData.content.chapters.associateBy { it.id }
+
+        // AppRepository currently stores bookmarks and reading positions as
+        // chapterKey + articleIndex. Until those preferences are migrated to
+        // stable article IDs, every bundled chapter/article must remain at the
+        // same position in the remote document. New chapters/articles may be
+        // appended, but existing entries may not be removed, inserted before,
+        // or reordered.
+        val remoteByKey = orderedRemoteChapters.associateBy { it.clientKey }
+        for ((chapterKey, bundledChapter) in bundledChapters) {
+            val remoteChapter = remoteByKey[chapterKey] ?: return null
+            val remoteArticles = remoteChapter.articles.sortedBy { it.sortOrder }
+            if (remoteArticles.size < bundledChapter.articles.size) return null
+            val existingOrderMatches = bundledChapter.articles.indices.all { index ->
+                remoteArticles[index].number == bundledChapter.articles[index].number
+            }
+            if (!existingOrderMatches) return null
+        }
+
+        val chapters = orderedRemoteChapters.map { chapter ->
+            if (chapter.title.isBlank()) return null
+            val orderedArticles = chapter.articles.sortedBy { it.sortOrder }
+            if (orderedArticles.any { it.number.isBlank() || it.content.isBlank() }) return null
+            if (orderedArticles.map { it.sortOrder }.distinct().size != orderedArticles.size) return null
             Chapter(
                 id = chapter.clientKey,
                 title = chapter.title,
-                articles = chapter.articles.sortedBy { it.sortOrder }.map { article ->
+                articles = orderedArticles.map { article ->
                     tax.app.mehdighobadi.data.Article(
                         number = article.number,
                         content = article.content,
