@@ -23,6 +23,43 @@
             android:layout_height="wrap_content"
             android:text="@string/settings_title" />
 
+        <!-- ===== حساب کاربری ===== -->
+        <LinearLayout
+            android:id="@+id/account_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xl"
+            android:background="@drawable/bg_glass_card"
+            android:orientation="vertical"
+            android:padding="@dimen/space_xl">
+
+            <TextView
+                style="@style/Text.irtax.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/account_title"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_account_status"
+                style="@style/Text.irtax.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="@string/account_signed_out"
+                android:textColor="@color/text_secondary" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_account_action"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="@dimen/space_md"
+                android:fontFamily="@font/vazirmatn_medium"
+                android:text="@string/account_login"
+                app:cornerRadius="14dp" />
+
+        </LinearLayout>
+
         <!-- ===== ظاهر ===== -->
         <LinearLayout
             android:id="@+id/progress_section"
