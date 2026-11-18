@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         themeManager.applyNightMode()
         themeManager.applyAccent(this)
         super.onCreate(savedInstanceState)
-        ApiClient.setBearerToken(SessionStore.get(this).readToken())
+        ApiClient.setBearerToken(runCatching { SessionStore.get(this).readToken() }.getOrNull())
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         applyStatusBarContrast()
