@@ -121,15 +121,29 @@ data class ExamDto(
     val title: String,
     val description: String? = null,
     val questionCount: Int? = null,
-    val durationMinutes: Int? = null
+    val durationMinutes: Int? = null,
+    val questions: List<ExamQuestionDto> = emptyList()
 )
 
+data class ExamQuestionDto(
+    val id: String,
+    val text: String,
+    val options: List<ExamOptionDto> = emptyList()
+)
+
+data class ExamOptionDto(
+    val id: String,
+    val text: String
+)
+
+/** Map question IDs to selected option IDs. Never include answer keys. */
 data class ExamSubmissionRequest(val answers: Map<String, String>)
 data class ExamResultDto(
     val id: String? = null,
     val score: Double? = null,
     val correctCount: Int? = null,
-    val totalQuestions: Int? = null
+    val totalQuestions: Int? = null,
+    val message: String? = null
 )
 
 data class ConversationDto(
