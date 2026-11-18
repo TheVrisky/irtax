@@ -47,7 +47,8 @@ class ArticleRepository(context: Context) {
             val cached = cache.getAll()
             ArticleLoadResult(
                 articles = if (cached.isNotEmpty()) cached else allArticles,
-                source = ArticleSource.REMOTE
+                source = if (allArticles.isNotEmpty()) ArticleSource.REMOTE else ArticleSource.CACHE,
+                message = if (allArticles.isEmpty()) "هنوز محتوای منتشرشده‌ای از سرور دریافت نشده است." else null
             )
         } catch (_: IOException) {
             cachedOrEmpty("اتصال برقرار نیست؛ محتوای ذخیره‌شده نمایش داده می‌شود.")
