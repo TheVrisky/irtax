@@ -14,6 +14,8 @@ import tax.app.mehdighobadi.ui.favorites.FavoritesFragment
 import tax.app.mehdighobadi.ui.home.HomeFragment
 import tax.app.mehdighobadi.ui.settings.SettingsFragment
 import tax.app.mehdighobadi.ui.support.SupportFragment
+import tax.app.mehdighobadi.data.auth.SessionStore
+import tax.app.mehdighobadi.data.remote.ApiClient
 
 /** ناوبری اصلی نسخه ۲.۰.۲ */
 class MainActivity : AppCompatActivity() {
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         themeManager.applyNightMode()
         themeManager.applyAccent(this)
         super.onCreate(savedInstanceState)
+        ApiClient.setBearerToken(SessionStore.get(this).readToken())
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         applyStatusBarContrast()
