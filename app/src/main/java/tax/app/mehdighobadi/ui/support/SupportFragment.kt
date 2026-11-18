@@ -1,147 +1,254 @@
 package tax.app.mehdighobadi.ui.support
 
-import android.net.Uri
+import android.graphics.Typeface
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
+import android.widget.LinearLayout
+import android.widget.ScrollView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts as ComposeContracts
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.launch
+import tax.app.mehdighobadi.R
+import tax.app.mehdighobadi.data.auth.AuthRepository
+import tax.app.mehdighobadi.data.remote.ConversationDto
+import tax.app.mehdighobadi.data.remote.MessageDto
+import tax.app.mehdighobadi.data.repository.SupportRepository
+import tax.app.mehdighobadi.data.repository.SupportResult
+import tax.app.mehdighobadi.ui.main.MainActivity
 
 class SupportFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent { SupportChatScreen() }
-        }
-}
+    private lateinit var root: LinearLayout
+    private val repository by lazy { SupportRepository() }
+    private val auth by lazy { AuthRepository(requireContext()) }
+    private var activeConversation: ConversationDto? = null
+    private var loading = false
 
-@Composable
-private fun SupportChatScreen() {
-    val scheme = if (isSystemInDarkTheme()) IrtaxDarkColors else IrtaxLightColors
-    MaterialTheme(colorScheme = scheme) {
-        Scaffold(
-            containerColor = MaterialTheme.colorScheme.background,
-            bottomBar = { ChatComposer() }
-        ) { padding ->
-            Box(
-                modifier = Modifier.fillMaxSize().padding(padding).padding(24.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text("در دست توسعه", style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onBackground)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View {
+        val scroll = ScrollView(requireContext()).apply { isFillViewport = true; clipToPadding = false }
+        root = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutDirection = View.LAYOUT_DIRECTION_RTL
+            setPadding(dp(20), dp(24), dp(20), dp(120))
+        }
+        scroll.addView(root)
+        renderHome()
+        return scroll
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (view != null) {
+            if (!auth.isSignedIn()) renderSignedOut()
+            else if (activeConversation == null) loadConversations()
+        }
+    }
+
+    private fun renderSignedOut() {
+        root.removeAllViews()
+        addText("پرسش و پاسخ", 25, true)
+        val panel = card()
+        panel.addView(text("گفت‌وگوی خصوصی با پشتیبانی", 18, true))
+        panel.addView(text("برای ثبت پرسش و مشاهده پاسخ‌ها، ابتدا وارد حساب کاربری شو.", 13))
+        val login = button("رفتن به بخش ورود")
+        login.setOnClickListener { (activity as? MainActivity)?.selectTab(R.id.nav_settings) }
+        panel.addView(login)
+        root.addView(panel)
+    }
+
+    private fun renderHome() {
+        if (!isAdded || !::root.isInitialized) return
+        if (!auth.isSignedIn()) { renderSignedOut(); return }
+        root.removeAllViews()
+        addText("پشتیبانی و گفت‌وگو", 24, true)
+        addText("پیام‌های خصوصی خود را مدیریت کن.", 13)
+        addHomeActions()
+        addText("گفت‌وگوهای من", 17, true)
+    }
+
+    private fun addHomeActions() {
+        val row = LinearLayout(requireContext()).apply { orientation = LinearLayout.HORIZONTAL }
+        val create = button("گفت‌وگوی جدید")
+        create.layoutParams = LinearLayout.LayoutParams(0, dp(48), 1f).apply { marginEnd = dp(6) }
+        create.setOnClickListener { showCreateDialog() }
+        val refresh = button("بروزرسانی")
+        refresh.layoutParams = LinearLayout.LayoutParams(0, dp(48), 1f).apply { marginStart = dp(6) }
+        refresh.setOnClickListener { loadConversations() }
+        row.addView(create); row.addView(refresh); root.addView(row)
+    }
+
+    private fun loadConversations() {
+        if (loading || !isAdded || !::root.isInitialized) return
+        loading = true
+        if (root.childCount == 0) renderHome()
+        lifecycleScope.launch {
+            when (val result = repository.conversations()) {
+                is SupportResult.Success -> {
+                    renderHome()
+                    if (result.value.isEmpty()) {
+                        val empty = card()
+                        empty.addView(text("هنوز گفت‌وگویی ثبت نکرده‌ای. برای شروع، گفت‌وگوی جدید بساز.", 14))
+                        root.addView(empty)
+                    } else result.value.forEach { conversation ->
+                        val item = card()
+                        item.addView(text(conversation.subject?.takeIf { it.isNotBlank() } ?: "گفت‌وگوی بدون عنوان", 15, true))
+                        item.addView(text("وضعیت: " + (conversation.status ?: "نامشخص"), 12))
+                        val open = button("مشاهده پیام‌ها")
+                        open.setOnClickListener { openConversation(conversation) }
+                        item.addView(open); root.addView(item)
+                    }
+                }
+                is SupportResult.Failure -> {
+                    renderHome()
+                    addText(result.message, 13)
+                    val retry = button("تلاش دوباره")
+                    retry.setOnClickListener { loadConversations() }
+                    root.addView(retry)
+                }
+            }
+            loading = false
+        }
+    }
+
+    private fun openConversation(conversation: ConversationDto) {
+        activeConversation = conversation
+        root.removeAllViews()
+        addText(conversation.subject ?: "گفت‌وگو با پشتیبانی", 21, true)
+        val back = button("بازگشت به فهرست")
+        back.setOnClickListener { activeConversation = null; renderHome(); loadConversations() }
+        root.addView(back)
+        addText("در حال دریافت پیام‌ها…", 12)
+        lifecycleScope.launch {
+            when (val result = repository.messages(conversation.id)) {
+                is SupportResult.Success -> renderMessages(conversation, result.value)
+                is SupportResult.Failure -> {
+                    if (activeConversation?.id != conversation.id) return@launch
+                    root.removeAllViews()
+                    addText(conversation.subject ?: "گفت‌وگو", 21, true)
+                    addText(result.message, 13)
+                    val retry = button("تلاش دوباره")
+                    retry.setOnClickListener { openConversation(conversation) }
+                    root.addView(retry)
+                }
             }
         }
     }
-}
 
-@Composable
-private fun ChatComposer() {
-    var message by remember { mutableStateOf("") }
-    var selectedImage by remember { mutableStateOf<Uri?>(null) }
-    val context = LocalContext.current
-    val imagePicker = rememberLauncherForActivityResult(ComposeContracts.GetContent()) { uri ->
-        selectedImage = uri
-    }
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surface,
-        shadowElevation = 12.dp
-    ) {
-        Column(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp)) {
-            selectedImage?.let { uri ->
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    AndroidView(
-                        factory = { ImageView(it).apply { scaleType = ImageView.ScaleType.CENTER_CROP } },
-                        update = { it.setImageURI(uri) },
-                        modifier = Modifier.size(64.dp).clip(RoundedCornerShape(12.dp))
-                    )
-                    Text("تصویر انتخاب شد", modifier = Modifier.padding(start = 10.dp),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.labelMedium)
-                    Spacer(Modifier.weight(1f))
-                    Text("حذف", color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.padding(8.dp))
-                }
-                Spacer(Modifier.height(8.dp))
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = { imagePicker.launch("image/*") }) {
-                    Text("＋", color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleLarge)
-                }
-                TextField(
-                    value = message,
-                    onValueChange = { message = it },
-                    modifier = Modifier.weight(1f),
-                    placeholder = { Text("پیام بنویسید…") },
-                    singleLine = true,
-                    shape = RoundedCornerShape(22.dp),
-                    colors = TextFieldDefaults.colors(
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
-                    )
-                )
-                IconButton(onClick = {}, enabled = false) {
-                    Text("➤", color = MaterialTheme.colorScheme.onSurfaceVariant)
+    private fun renderMessages(conversation: ConversationDto, messages: List<MessageDto>) {
+        if (activeConversation?.id != conversation.id) return
+        root.removeAllViews()
+        addText(conversation.subject ?: "گفت‌وگو با پشتیبانی", 21, true)
+        val back = button("بازگشت به فهرست")
+        back.setOnClickListener { activeConversation = null; renderHome(); loadConversations() }
+        root.addView(back)
+        if (messages.isEmpty()) addText("هنوز پیامی در این گفت‌وگو وجود ندارد.", 13)
+        messages.forEach { message ->
+            val bubble = card()
+            bubble.addView(text(message.body, 14))
+            bubble.addView(text((message.senderType ?: "کاربر") + " • " + (message.createdAt ?: ""), 10))
+            root.addView(bubble)
+        }
+        val composer = TextInputLayout(requireContext()).apply {
+            hint = "پیام خود را بنویسید"
+            boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_OUTLINE
+            layoutParams = LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) }
+        }
+        val input = TextInputEditText(composer.context).apply {
+            minLines = 2; maxLines = 4; gravity = Gravity.TOP or Gravity.RIGHT
+        }
+        composer.addView(input); root.addView(composer)
+        val send = button("ارسال پیام")
+        send.setOnClickListener {
+            val body = input.text?.toString()?.trim().orEmpty()
+            if (body.isBlank()) { composer.error = "متن پیام را وارد کن."; return@setOnClickListener }
+            composer.error = null; send.isEnabled = false
+            lifecycleScope.launch {
+                when (val result = repository.send(conversation.id, body)) {
+                    is SupportResult.Success -> openConversation(conversation)
+                    is SupportResult.Failure -> {
+                        send.isEnabled = true
+                        Toast.makeText(requireContext(), result.message, Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
+        root.addView(send)
     }
-}
 
-private val IrtaxLightColors = lightColorScheme(
-    primary = Color(0xFF5968D8), onPrimary = Color.White,
-    primaryContainer = Color(0xFFE4E8FF), onPrimaryContainer = Color(0xFF202B72),
-    secondary = Color(0xFF168F89), background = Color(0xFFF5F6FC),
-    surface = Color(0xFFFFFFFF), surfaceVariant = Color(0xFFEAECF5),
-    onSurface = Color(0xFF1C2340), onSurfaceVariant = Color(0xFF68708A)
-)
-private val IrtaxDarkColors = darkColorScheme(
-    primary = Color(0xFFA5AEFF), onPrimary = Color(0xFF172052),
-    primaryContainer = Color(0xFF303B75), onPrimaryContainer = Color(0xFFE0E4FF),
-    secondary = Color(0xFF76D5C9), background = Color(0xFF0D1427),
-    surface = Color(0xFF151F35), surfaceVariant = Color(0xFF222D47),
-    onSurface = Color(0xFFE8ECFA), onSurfaceVariant = Color(0xFFA8B2CC)
-)
+    private fun showCreateDialog() {
+        val context = requireContext()
+        val content = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(24), dp(8), dp(24), 0)
+        }
+        val subjectLayout = TextInputLayout(context).apply {
+            hint = "موضوع گفت‌وگو"; boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_OUTLINE
+        }
+        val subject = TextInputEditText(subjectLayout.context).apply { isSingleLine = true }
+        subjectLayout.addView(subject); content.addView(subjectLayout)
+        val bodyLayout = TextInputLayout(context).apply {
+            hint = "شرح پرسش یا مشکل"; boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_OUTLINE
+            layoutParams = LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) }
+        }
+        val body = TextInputEditText(bodyLayout.context).apply {
+            minLines = 3; maxLines = 5; gravity = Gravity.TOP or Gravity.RIGHT
+        }
+        bodyLayout.addView(body); content.addView(bodyLayout)
+        val dialog = MaterialAlertDialogBuilder(context).setTitle("ایجاد گفت‌وگوی جدید")
+            .setView(content).setNegativeButton("انصراف", null).setPositiveButton("ثبت", null).create()
+        dialog.setOnShowListener {
+            dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val title = subject.text?.toString()?.trim().orEmpty()
+                val message = body.text?.toString()?.trim().orEmpty()
+                subjectLayout.error = if (title.isBlank()) "موضوع را وارد کن." else null
+                bodyLayout.error = if (message.isBlank()) "شرح پرسش را وارد کن." else null
+                if (title.isBlank() || message.isBlank()) return@setOnClickListener
+                dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).isEnabled = false
+                lifecycleScope.launch {
+                    when (val result = repository.create(title, message)) {
+                        is SupportResult.Success -> { dialog.dismiss(); openConversation(result.value) }
+                        is SupportResult.Failure -> {
+                            Toast.makeText(requireContext(), result.message, Toast.LENGTH_LONG).show()
+                            if (dialog.isShowing) dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).isEnabled = true
+                        }
+                    }
+                }
+            }
+        }
+        dialog.show()
+    }
+
+    private fun card() = LinearLayout(requireContext()).apply {
+        orientation = LinearLayout.VERTICAL
+        setPadding(dp(16), dp(14), dp(16), dp(14))
+        background = android.graphics.drawable.GradientDrawable().apply {
+            setColor(ContextCompat.getColor(requireContext(), R.color.surface_glass_strong))
+            cornerRadius = dp(20).toFloat()
+            setStroke(dp(1), ContextCompat.getColor(requireContext(), R.color.outline))
+        }
+        layoutParams = LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8); bottomMargin = dp(8) }
+    }
+
+    private fun text(value: String, size: Int, bold: Boolean = false) = TextView(requireContext()).apply {
+        text = value; textSize = size.toFloat(); gravity = Gravity.RIGHT
+        textDirection = View.TEXT_DIRECTION_RTL
+        setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
+        if (bold) setTypeface(typeface, Typeface.BOLD)
+        setPadding(0, dp(4), 0, dp(4))
+    }
+    private fun addText(value: String, size: Int, bold: Boolean = false) { root.addView(text(value, size, bold)) }
+    private fun button(value: String) = MaterialButton(requireContext()).apply {
+        text = value; isAllCaps = false; textSize = 13f
+        layoutParams = LinearLayout.LayoutParams(-1, dp(48)).apply { topMargin = dp(6); bottomMargin = dp(6) }
+    }
+    private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
+}
