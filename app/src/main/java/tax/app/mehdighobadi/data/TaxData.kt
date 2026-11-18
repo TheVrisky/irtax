@@ -10,17 +10,20 @@ data class Article(
     val number: String,
     val content: String,
     val sections: List<Section> = emptyList(),
-    val notes: List<Note> = emptyList()
+    val notes: List<Note> = emptyList(),
+    val id: String? = null
 )
 
 data class Section(
     val title: String,
-    val content: String
+    val content: String,
+    val id: String? = null
 )
 
 data class Note(
     val label: String,
-    val content: String
+    val content: String,
+    val id: String? = null
 )
 
 data class TaxContent(
@@ -31,7 +34,8 @@ data class TaxContent(
 )
 
 object TaxData {
-    val content = TaxContent(
+    @Volatile
+    var content = TaxContent(
         chapters = listOf(
             Chapter(
                 id = "fasl1",
