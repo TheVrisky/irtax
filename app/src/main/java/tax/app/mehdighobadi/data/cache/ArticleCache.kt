@@ -29,10 +29,31 @@ class ArticleCache(context: Context) :
             """.trimIndent()
         )
         db.execSQL("CREATE INDEX index_articles_updated_at ON $TABLE_ARTICLES(updated_at)")
+        db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_LEGAL_DOCUMENTS (id TEXT PRIMARY KEY NOT NULL, version TEXT, payload TEXT NOT NULL, cached_at INTEGER NOT NULL)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        // Schema migrations will be added here as the API content model evolves.
+        if (oldVersion < 2) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_LEGAL_DOCUMENTS (id TEXT PRIMARY KEY NOT NULL, version TEXT, payload TEXT NOT NULL, cached_at INTEGER NOT NULL)")
+        }
+    }
+
+    fun saveLegalDocument(id: String, version: String?, payload: String) {
+        val values = ContentValues().apply {
+            put("id", id)
+            put("version", version)
+            put("payload", payload)
+            put("cached_at", System.currentTimeMillis())
+        }
+        writableDatabase.insertWithOnConflict(TABLE_LEGAL_DOCUMENTS, null, values, SQLiteDatabase.CONFLICT_REPLACE)
+    }
+
+    fun getLatestLegalDocument(): String? {
+        readableDatabase.query(
+            TABLE_LEGAL_DOCUMENTS, arrayOf("payload"), null, null, null, null, "cached_at DESC", "1"
+        ).use { cursor ->
+            return if (cursor.moveToFirst()) cursor.getString(0) else null
+        }
     }
 
     fun upsertAll(articles: List<ArticleDto>) {
@@ -109,8 +130,9 @@ class ArticleCache(context: Context) :
 
     companion object {
         private const val DATABASE_NAME = "irtax_content_cache.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
         private const val TABLE_ARTICLES = "articles"
+        private const val TABLE_LEGAL_DOCUMENTS = "legal_documents"
         private const val COL_ID = "id"
         private const val COL_TITLE = "title"
         private const val COL_SLUG = "slug"
