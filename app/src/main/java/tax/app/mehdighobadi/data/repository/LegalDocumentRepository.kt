@@ -67,6 +67,16 @@ class LegalDocumentRepository(context: Context) {
         if (document.id.isBlank() || document.chapters.isEmpty()) return null
         val keys = document.chapters.map { it.clientKey }
         if (keys.any { it.isBlank() } || keys.distinct().size != keys.size) return null
+        if (document.chapters.map { it.sortOrder }.distinct().size != document.chapters.size) return null
+        val allArticleIds = document.chapters.flatMap { it.articles }.map { it.id }
+        if (allArticleIds.any { it.isBlank() } || allArticleIds.distinct().size != allArticleIds.size) return null
+        val allNestedIds = document.chapters.flatMap { chapter ->
+            chapter.articles.flatMap { article ->
+                article.sections.map { it.id } + article.notes.map { it.id }
+            }
+        }
+        if (allNestedIds.any { it.isBlank() } || allNestedIds.distinct().size != allNestedIds.size) return null
+
         val orderedRemoteChapters = document.chapters.sortedBy { it.sortOrder }
         val bundledChapters = TaxData.content.chapters.associateBy { it.id }
 
