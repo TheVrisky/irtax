@@ -19,6 +19,7 @@ agreement, not proof that the Laravel routes or response shapes already exist.
 | Method | Path | Purpose |
 |---|---|---|
 | POST | /api/v1/auth/login | Sign in |
+| POST | /api/v1/auth/logout | Revoke the current access token |
 | GET | /api/v1/articles | Published articles, pagination and incremental sync |
 | GET | /api/v1/articles/{id} | Article detail |
 | GET | /api/v1/infographics | Published infographics |
@@ -47,8 +48,13 @@ Paged resources use `data.items` and optional `currentPage`, `lastPage`,
   depend directly on API response classes.
 - The Laravel backend must be aligned to these names, or the DTOs must be
   adjusted before enabling live calls.
-- Token storage is intentionally not persisted in this first slice. A later
-  authentication slice must add encrypted token storage, logout/revocation,
-  expiry handling, and account-state UI.
+- Sanctum tokens are persisted locally using Android Keystore-backed encrypted preferences.
+- The encrypted session file is excluded from cloud backup and device transfer.
+- Logout clears the local session even when the server cannot be reached.
+- The login screen, password reset, and account-state UI are not implemented yet.
 - Do not send credentials or tokens to logs.
 - PDF/TXT imports and legal-content approval remain server/admin responsibilities.
+
+
+## Offline article cache
+The Android client now has a SQLite cache for server-managed articles. The repository fetches paginated content, stores successful results, and falls back to cached content when the network or API is unavailable. This cache is separate from the existing static `TaxData` content and does not yet replace the current article screens.
