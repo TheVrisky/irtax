@@ -5,6 +5,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.google.gson.GsonBuilder
+import com.google.gson.FieldNamingPolicy
 import tax.app.mehdighobadi.BuildConfig
 import java.util.concurrent.TimeUnit
 
@@ -52,7 +54,13 @@ object ApiClient {
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(httpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(
+                GsonConverterFactory.create(
+                    GsonBuilder()
+                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                        .create()
+                )
+            )
             .build()
             .create(ApiService::class.java)
     }
