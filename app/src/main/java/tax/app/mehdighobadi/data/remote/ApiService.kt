@@ -17,6 +17,9 @@ interface ApiService {
     @POST("api/v1/auth/login")
     suspend fun login(@Body request: LoginRequest): Response<ApiEnvelope<AuthPayload>>
 
+    @POST("api/v1/auth/logout")
+    suspend fun logout(): Response<ApiEnvelope<Unit>>
+
     @GET("api/v1/articles")
     suspend fun getArticles(
         @Query("page") page: Int? = null,
