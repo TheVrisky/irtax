@@ -20,6 +20,9 @@ interface ApiService {
     @POST("api/v1/auth/logout")
     suspend fun logout(): Response<ApiEnvelope<Unit>>
 
+    @GET("api/v1/legal-documents/active")
+    suspend fun getActiveLegalDocument(): Response<ApiEnvelope<LegalDocumentDto>>
+
     @GET("api/v1/articles")
     suspend fun getArticles(
         @Query("page") page: Int? = null,
@@ -161,3 +164,31 @@ data class MessageDto(
     val senderType: String? = null,
     val createdAt: String? = null
 )
+
+
+/** Hierarchical, versioned legal document. chapter.clientKey must retain local keys (e.g. fasl1) to preserve study state. */
+data class LegalDocumentDto(
+    val id: String,
+    val title: String,
+    val version: String? = null,
+    val effectiveAt: String? = null,
+    val publishedAt: String? = null,
+    val chapters: List<LegalChapterDto> = emptyList()
+)
+data class LegalChapterDto(
+    val id: String,
+    val clientKey: String,
+    val title: String,
+    val sortOrder: Int = 0,
+    val articles: List<LegalArticleDto> = emptyList()
+)
+data class LegalArticleDto(
+    val id: String,
+    val number: String,
+    val content: String,
+    val sortOrder: Int = 0,
+    val sections: List<LegalSectionDto> = emptyList(),
+    val notes: List<LegalNoteDto> = emptyList()
+)
+data class LegalSectionDto(val id: String, val title: String, val content: String, val sortOrder: Int = 0)
+data class LegalNoteDto(val id: String, val label: String, val content: String, val sortOrder: Int = 0)
