@@ -58,3 +58,63 @@ Paged resources use `data.items` and optional `currentPage`, `lastPage`,
 
 ## Offline article cache
 The Android client now has a SQLite cache for server-managed articles. The repository fetches paginated content, stores successful results, and falls back to cached content when the network or API is unavailable. This cache is separate from the existing static `TaxData` content and does not yet replace the current article screens.
+
+
+## Exam delivery and grading contract
+
+The Android exam client expects:
+- `GET /api/v1/exams?page=1&per_page=100` returns only published/available exams in `data.items`.
+- `GET /api/v1/exams/{id}` returns `data` with `id`, `title`, optional `description`, `question_count`, `duration_minutes`, and `questions`.
+- Each question has `id`, `text`, and `options`; each option has `id` and `text`.
+- Correct answers, grading keys, and explanations must not be included in the exam-detail response.
+- `POST /api/v1/exams/{id}/submit` accepts `{ "answers": { "question-id": "option-id" } }`.
+- The server validates exam publication/access, question membership, attempt limits and timing, then grades answers server-side. It returns `correct_count`, `total_questions`, optional `score`, and optional `message` in `data`.
+- A 401 response means the user must sign in before submitting. The client does not locally grade or fabricate a server result.
+- The existing five-question local quiz remains available independently when the API is offline or unavailable. Its local score is stored separately and is not represented as a server-certified attempt.
+
+Example exam detail payload:
+
+```json
+{
+  "data": {
+    "id": "exam-001",
+    "title": "آزمون نمونه",
+    "description": "آزمون مقدماتی",
+    "question_count": 1,
+    "duration_minutes": 10,
+    "questions": [
+      {
+        "id": "question-001",
+        "text": "متن سؤال",
+        "options": [
+          { "id": "option-a", "text": "گزینه اول" },
+          { "id": "option-b", "text": "گزینه دوم" }
+        ]
+      }
+    ]
+  },
+  "message": null,
+  "errors": null
+}
+```
+
+Example submission body:
+
+```json
+{
+  "answers": {
+    "question-001": "option-a"
+  }
+}
+```
+
+## Legal-content hierarchy contract (next integration slice)
+
+The current local content model is hierarchical and must remain so:
+- document / law
+- chapters
+- articles (number and main text)
+- sections (lettered clauses / بندها)
+- notes (تبصره‌ها and notes)
+
+The current reader, bookmarks and reading progress identify content using chapter ID plus article index. The server model must provide stable IDs for laws, chapters and articles; client mapping must preserve this local navigation identity or migrate bookmarks/progress explicitly. A future law endpoint should return a versioned document tree, its publication/effective dates and amendment metadata. Do not flatten sections or notes into the article body. Do not replace the existing local TaxData until the remote tree has been validated and cached. PDF/TXT imports must remain draft until a human reviews and publishes the extracted legal text.
