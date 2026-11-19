@@ -67,13 +67,16 @@ class LegalHistoryActivity : AppCompatActivity() {
     private fun loadHistory(documentId: String, articleId: String) {
         progress.visibility = View.VISIBLE
         lifecycleScope.launch {
-            val repository = LegalHistoryRepository()
+            val repository = LegalHistoryRepository(this@LegalHistoryActivity)
             val versions = repository.loadVersions(documentId)
             val amendments = repository.loadAmendments(documentId)
             val articleHistory = if (articleId.isNotBlank()) {
                 repository.loadArticleHistory(articleId)
             } else null
             progress.visibility = View.GONE
+            val loadedFromCache = listOfNotNull(versions, amendments, articleHistory)
+                .any { it is tax.app.mehdighobadi.data.repository.LegalHistoryResult.Success<*> && it.fromCache }
+            if (loadedFromCache) addMessage("اتصال به سرور برقرار نیست؛ اطلاعات ذخیره‌شده در دستگاه نمایش داده می‌شود.")
 
             addSectionTitle("نسخه‌های منتشرشده")
             when (versions) {
