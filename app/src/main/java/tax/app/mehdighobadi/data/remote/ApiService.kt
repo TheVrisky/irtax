@@ -171,7 +171,12 @@ data class LegalDocumentDto(
     val id: String,
     val title: String,
     val version: String? = null,
+    val publicationDate: String? = null,
     val effectiveAt: String? = null,
+    val expirationDate: String? = null,
+    val amendmentDate: String? = null,
+    val status: String? = null,
+    val checksum: String? = null,
     val publishedAt: String? = null,
     val chapters: List<LegalChapterDto> = emptyList()
 )
