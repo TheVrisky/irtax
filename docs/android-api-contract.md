@@ -193,3 +193,26 @@ Android stores favorites, read-state, and the last-read reference using stable a
 After a remote or cached legal document is applied, the app reconciles remaining legacy positional keys to stable IDs. Articles that do not yet have a stable ID retain their legacy key. Legal content synchronization must preserve the existing chapter client keys and existing article ordering until every legacy reference has been reconciled. Stable IDs are expected to survive editorial changes and numbering changes.
 
 The app resolves stable IDs against the active document when showing favorites and the last-read article. Unknown IDs are retained in preferences rather than deleted, allowing a future document version to resolve them.
+
+
+## Legal document version and amendment-history API
+
+The active-document DTO includes immutable publication metadata:
+- `documentId`, `version`
+- `publicationDate`, `effectiveAt`, `expirationDate`, `amendmentDate`
+- `status`, `checksum`, `publishedAt`
+
+Android maps these values into `TaxContent` and tracks the active document version separately from user reading state. A cached legal document is stored by the composite `document_id + version`, rather than overwriting the previous version.
+
+Additional history endpoints represented by Android:
+- `GET /api/v1/legal-documents/{documentId}/versions`
+- `GET /api/v1/legal-documents/{documentId}/amendments`
+- `GET /api/v1/articles/{articleId}/history`
+
+Version records are immutable after publication. Amendment records describe changes and point to the stable article identity. The API must not infer legal effective dates from publication dates.
+
+## Study-state identity migration v2
+
+Legacy `chapter:index` favorites/read markers are converted to `article:<uuid>` keys. For bundled content without a server UUID, Android derives a deterministic UUID from document ID, chapter key and article number. When remote content is applied, reconciliation maps bundled deterministic IDs to server article IDs when the chapter key/article number match. Unresolvable keys are retained.
+
+The last-read record includes the active document version. This is diagnostic metadata and does not erase or reset progress when a new legal version is installed.
