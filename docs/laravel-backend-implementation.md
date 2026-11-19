@@ -51,3 +51,66 @@ Build Blade + Tailwind RTL with session authentication. Required areas: dashboar
 
 ## Owner boundary
 The project owner executes VPS commands and deploys Laravel. The Android changes are made in the GitHub repository. This checklist is not a claim that backend routes, migrations, admin UI, or import processing have already been deployed.
+
+
+## Versioned legal-content schema (reviewed contract)
+
+Recommended relational model and constraints:
+
+### `legal_documents`
+- `id`: UUID primary key
+- `slug`: unique
+- `title`, `document_type`, `official_number`, `description`
+- `active_version_id`, `latest_version_id` (nullable UUID references)
+- timestamps
+
+### `legal_document_versions`
+- `id`: UUID primary key
+- `legal_document_id`: foreign key
+- `version_number`: string; unique per document
+- `publication_date`, `effective_date`, `expiration_date`, `amendment_date`
+- `status`: draft/review/approved/published/archived
+- `source_document_id`, `checksum`
+- `published_at`, `published_by`, `reviewed_by`
+- timestamps
+- Unique index: (`legal_document_id`, `version_number`)
+- Published versions are immutable; activating a version changes only the document pointer.
+
+### `legal_chapters`
+- `id`: UUID
+- `legal_document_version_id`: foreign key
+- `client_key`: e.g. fasl1 through fasl5
+- `title`, `chapter_number`, `sort_order`
+- Unique: (`legal_document_version_id`, `client_key`)
+
+### `legal_articles`
+- `id`: stable UUID for the legal article across versions
+- `legal_document_version_id`, `legal_chapter_id`
+- `article_number`, `title`, `content`, `summary`, `sort_order`
+- `effective_date`, `expiration_date`
+- Unique per version: (`legal_document_version_id`, `article_number`) only if the source law guarantees uniqueness; otherwise chapter-scoped uniqueness.
+- Keep a stable article identity separate from version-specific article rows if the text/number can change. Recommended split: `legal_article_identities` (stable UUID) and `legal_article_versions` (versioned text/number/chapter).
+
+### `legal_sections` and `legal_notes`
+- UUID, versioned article foreign key, label/title, content, sort_order.
+- Preserve بند, تبصره, footnote and other nested structures without flattening them into article content.
+
+### `legal_amendments`
+- UUID, document ID, stable article identity, source/amending document
+- `amendment_type`, `previous_text`, `new_text`
+- `publication_date`, `effective_date`, `source_reference`
+- reviewer/author and timestamps
+
+### `legal_sources`
+- UUID, original filename, mime type, file size, private storage path, checksum, uploaded_by, review_status, timestamps.
+- Store source files privately; expose downloads only to authorized admins.
+
+### Migration safety
+- Do not destructively alter the current users table.
+- Build schema in additive migrations and review existing migrations first.
+- Use transactions when publishing/activating versions.
+- Keep the previous active version available for rollback.
+- Article identity must not be based on article number or list position.
+- A version's content checksum is computed from normalized content and metadata, not from a mutable timestamp.
+
+This schema is the backend implementation specification. The GitHub repository currently contains Android code and documentation, not the Laravel application source. Actual Laravel migrations, Eloquent models, controllers and admin views must be committed in the Laravel backend repository or created on the owner-managed VPS; they are not claimed to be implemented here.
