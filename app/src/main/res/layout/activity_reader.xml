@@ -42,6 +42,19 @@
             android:textSize="14sp"
             tools:text="فصل دوم - تکالیف اشخاص مشمول" />
 
+        <TextView
+            android:id="@+id/btn_legal_history"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="6dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:paddingHorizontal="8dp"
+            android:text="تاریخچه"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
+            android:fontFamily="@font/vazirmatn_semibold" />
+
         <ImageButton
             android:id="@+id/btn_bookmark"
             android:layout_width="@dimen/icon_btn"

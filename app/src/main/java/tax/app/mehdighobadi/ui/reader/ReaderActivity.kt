@@ -69,6 +69,18 @@ class ReaderActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener { finish() }
         binding.btnBookmark.addPressScale(themeManager.reduceMotion)
         binding.btnBookmark.setOnClickListener { toggleBookmark() }
+        binding.btnLegalHistory.addPressScale(themeManager.reduceMotion)
+        binding.btnLegalHistory.setOnClickListener {
+            val article = articles.getOrNull(binding.viewpager.currentItem) ?: return@setOnClickListener
+            startActivity(
+                LegalHistoryActivity.intent(
+                    this,
+                    TaxData.content.documentId,
+                    article.id,
+                    article.number
+                )
+            )
+        }
     }
 
     private fun setupPager(startIndex: Int) {

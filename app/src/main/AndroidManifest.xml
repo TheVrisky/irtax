@@ -30,6 +30,10 @@
         </activity>
 
         <activity
+            android:name=".ui.reader.LegalHistoryActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".ui.reader.ReaderActivity"
             android:exported="false"
             android:screenOrientation="portrait"

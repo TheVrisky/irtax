@@ -8,6 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import android.widget.Toast
+import kotlinx.coroutines.launch
+import tax.app.mehdighobadi.data.repository.LegalDocumentRepository
+import tax.app.mehdighobadi.data.repository.LegalContentSource
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import tax.app.mehdighobadi.R
@@ -67,12 +72,33 @@ class BankFragment : Fragment() {
         }
 
         applyFilter("")
+        loadLegalDocument()
     }
 
     override fun onResume() {
         super.onResume()
         // پیشرفت ممکن است پس از مطالعه تغییر کرده باشد
         if (binding.etSearch.text.isNullOrBlank()) applyFilter("")
+    }
+
+
+    private fun loadLegalDocument() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val result = LegalDocumentRepository(requireContext()).loadActiveDocument()
+            if (!isAdded || _binding == null) return@launch
+            if (result.content.chapters.isNotEmpty()) {
+                TaxData.content = result.content
+                // Convert legacy chapter:index preferences to stable article IDs
+                // after the remote/cache document is installed.
+                repo.reconcileStableIdentifiers()
+                val adapter = binding.rvBank.adapter as? ChapterAdapter
+                val query = binding.etSearch.text?.toString().orEmpty()
+                if (query.isBlank()) adapter?.showChapters() else applyFilter(query)
+            }
+            if (result.source != LegalContentSource.REMOTE && !result.message.isNullOrBlank()) {
+                Toast.makeText(requireContext(), result.message, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun applyFilter(query: String) {

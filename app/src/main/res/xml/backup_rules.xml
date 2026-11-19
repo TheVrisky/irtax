@@ -2,4 +2,5 @@
 <full-backup-content>
     <include domain="sharedpref" path="." />
     <exclude domain="sharedpref" path="device.xml" />
+    <exclude domain="sharedpref" path="irtax_secure_session.xml" />
 </full-backup-content>

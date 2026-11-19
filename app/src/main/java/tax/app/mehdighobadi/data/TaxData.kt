@@ -10,28 +10,39 @@ data class Article(
     val number: String,
     val content: String,
     val sections: List<Section> = emptyList(),
-    val notes: List<Note> = emptyList()
+    val notes: List<Note> = emptyList(),
+    val id: String? = null
 )
 
 data class Section(
     val title: String,
-    val content: String
+    val content: String,
+    val id: String? = null
 )
 
 data class Note(
     val label: String,
-    val content: String
+    val content: String,
+    val id: String? = null
 )
 
 data class TaxContent(
     val preparerName: String = "حسین جوادیان",
     val preparerOffice: String = "مجتمع حقوقی و مالیاتی جوادیان",
     val phone: String = "۰۹۱۲۲۸۵۲۳۴۰",
+    val documentId: String = "law-tax-invoice",
+    val documentVersion: String = "bundled-1",
+    val publicationDate: String? = null,
+    val effectiveDate: String? = null,
     val chapters: List<Chapter>
 )
 
 object TaxData {
-    val content = TaxContent(
+    @Volatile
+    var documentVersion: String = "bundled-1"
+
+    @Volatile
+    var content = TaxContent(
         chapters = listOf(
             Chapter(
                 id = "fasl1",
