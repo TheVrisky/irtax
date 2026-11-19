@@ -41,7 +41,8 @@ class LegalDocumentRepository(context: Context) {
             val mapped = mapDocument(document)
                 ?: return@withContext cachedOrLocal("ساختار سند قانونی سرور کامل یا معتبر نیست.")
             cache.saveLegalDocument(document.id, document.version, gson.toJson(document))
-            LegalContentResult(mapped, LegalContentSource.REMOTE, document.id, document.version)
+            TaxData.documentVersion = mapped.documentVersion
+            LegalContentResult(mapped, LegalContentSource.REMOTE, document.id, mapped.documentVersion)
         } catch (_: IOException) {
             cachedOrLocal("اینترنت در دسترس نیست؛ آخرین نسخه ذخیره‌شده نمایش داده می‌شود.")
         } catch (_: IllegalArgumentException) {
@@ -56,9 +57,10 @@ class LegalDocumentRepository(context: Context) {
         if (!json.isNullOrBlank()) {
             val cached = runCatching { gson.fromJson(json, LegalDocumentDto::class.java) }.getOrNull()
             val mapped = cached?.let { mapDocument(it) }
-            if (mapped != null) return LegalContentResult(
-                mapped, LegalContentSource.CACHE, cached.id, cached.version, message
-            )
+            if (mapped != null) {
+                TaxData.documentVersion = mapped.documentVersion
+                return LegalContentResult(mapped, LegalContentSource.CACHE, cached.id, mapped.documentVersion, message)
+            }
         }
         return LegalContentResult(TaxData.content, LegalContentSource.LOCAL, message = message)
     }
@@ -121,6 +123,12 @@ class LegalDocumentRepository(context: Context) {
             )
         }
         if (chapters.any { it.articles.isEmpty() }) return null
-        return TaxContent(chapters = chapters)
+        return TaxContent(
+            documentId = document.id,
+            documentVersion = document.version ?: document.checksum ?: "unknown",
+            publicationDate = document.publicationDate ?: document.publishedAt,
+            effectiveDate = document.effectiveAt,
+            chapters = chapters
+        )
     }
 }
