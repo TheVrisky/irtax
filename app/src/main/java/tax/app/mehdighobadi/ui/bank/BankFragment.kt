@@ -88,6 +88,9 @@ class BankFragment : Fragment() {
             if (!isAdded || _binding == null) return@launch
             if (result.content.chapters.isNotEmpty()) {
                 TaxData.content = result.content
+                // Convert legacy chapter:index preferences to stable article IDs
+                // after the remote/cache document is installed.
+                repo.reconcileStableIdentifiers()
                 val adapter = binding.rvBank.adapter as? ChapterAdapter
                 val query = binding.etSearch.text?.toString().orEmpty()
                 if (query.isBlank()) adapter?.showChapters() else applyFilter(query)
