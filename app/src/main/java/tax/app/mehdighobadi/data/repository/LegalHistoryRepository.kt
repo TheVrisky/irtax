@@ -1,6 +1,7 @@
 package tax.app.mehdighobadi.data.repository
 
 import android.content.Context
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import tax.app.mehdighobadi.data.LegalAmendment
@@ -8,9 +9,12 @@ import tax.app.mehdighobadi.data.LegalDocumentVersion
 import tax.app.mehdighobadi.data.LegalVersionStatus
 import tax.app.mehdighobadi.data.cache.LegalHistoryCache
 import tax.app.mehdighobadi.data.remote.ApiClient
+import tax.app.mehdighobadi.data.remote.ApiEnvelope
 import tax.app.mehdighobadi.data.remote.LegalAmendmentDto
 import tax.app.mehdighobadi.data.remote.LegalDocumentVersionDto
+import retrofit2.Response
 import java.io.IOException
+import java.lang.reflect.Type
 
 sealed interface LegalHistoryResult<out T> {
     data class Success<T>(val items: List<T>, val fromCache: Boolean = false) : LegalHistoryResult<T>
@@ -30,8 +34,9 @@ class LegalHistoryRepository(context: Context) {
             fetchOrCached(
                 key = LegalHistoryCache.versionsKey(documentId),
                 offlineMessage = "برای دریافت تاریخچه نسخه‌ها اتصال اینترنت برقرار نیست.",
+                domainClass = LegalDocumentVersion::class.java,
                 request = { ApiClient.service.getLegalDocumentVersions(documentId) },
-                map = { it.map(LegalDocumentVersionDto::toDomain) }
+                map = { rows -> rows.map { it.toDomain() } }
             )
         }
 
@@ -41,8 +46,9 @@ class LegalHistoryRepository(context: Context) {
             fetchOrCached(
                 key = LegalHistoryCache.amendmentsKey(documentId),
                 offlineMessage = "برای دریافت اصلاحیه‌ها اتصال اینترنت برقرار نیست.",
+                domainClass = LegalAmendment::class.java,
                 request = { ApiClient.service.getLegalAmendments(documentId) },
-                map = { it.map(LegalAmendmentDto::toDomain) }
+                map = { rows -> rows.map { it.toDomain() } }
             )
         }
 
@@ -52,17 +58,24 @@ class LegalHistoryRepository(context: Context) {
             fetchOrCached(
                 key = LegalHistoryCache.articleHistoryKey(articleId),
                 offlineMessage = "برای دریافت تاریخچه ماده اتصال اینترنت برقرار نیست.",
+                domainClass = LegalAmendment::class.java,
                 request = { ApiClient.service.getArticleHistory(articleId) },
-                map = { it.map(LegalAmendmentDto::toDomain) }
+                map = { rows -> rows.map { it.toDomain() } }
             )
         }
 
-    private suspend inline fun <Dto, Domain> fetchOrCached(
+    private suspend fun <Dto, Domain : Any> fetchOrCached(
         key: String,
         offlineMessage: String,
-        crossinline request: suspend () -> retrofit2.Response<tax.app.mehdighobadi.data.remote.ApiEnvelope<List<Dto>>>,
-        crossinline map: (List<Dto>) -> List<Domain>
+        domainClass: Class<Domain>,
+        request: suspend () -> Response<ApiEnvelope<List<Dto>>>,
+        map: (List<Dto>) -> List<Domain>
     ): LegalHistoryResult<Domain> {
+        fun cached(): List<Domain>? {
+            val type: Type = TypeToken.getParameterized(List::class.java, domainClass).type
+            return cache.load(key, type)
+        }
+
         try {
             val response = request()
             if (response.isSuccessful) {
@@ -73,28 +86,21 @@ class LegalHistoryRepository(context: Context) {
                     return LegalHistoryResult.Success(items)
                 }
             }
-            val cached = cachedItems<Domain>(key)
-            if (cached != null) return LegalHistoryResult.Success(cached, fromCache = true)
+            cached()?.let { return LegalHistoryResult.Success(it, fromCache = true) }
             return LegalHistoryResult.Failure(messageFor(response.code()))
         } catch (_: IOException) {
-            val cached = cachedItems<Domain>(key)
-            if (cached != null) return LegalHistoryResult.Success(cached, fromCache = true)
+            cached()?.let { return LegalHistoryResult.Success(it, fromCache = true) }
             return LegalHistoryResult.Failure(offlineMessage)
         } catch (_: IllegalArgumentException) {
-            val cached = cachedItems<Domain>(key)
-            if (cached != null) return LegalHistoryResult.Success(cached, fromCache = true)
+            cached()?.let { return LegalHistoryResult.Success(it, fromCache = true) }
             return LegalHistoryResult.Failure("نشانی HTTPS سرور برای این نسخه تنظیم نشده است.")
         } catch (_: Exception) {
-            val cached = cachedItems<Domain>(key)
-            if (cached != null) return LegalHistoryResult.Success(cached, fromCache = true)
+            cached()?.let { return LegalHistoryResult.Success(it, fromCache = true) }
             return LegalHistoryResult.Failure("دریافت تاریخچه از سرور یا حافظه محلی ممکن نشد.")
         }
     }
 
-    private inline fun <reified T> cachedItems(key: String): List<T>? =
-        cache.load<T>(key)
-
-    private fun invalidId(): LegalHistoryResult.Failure =
+    private fun invalidId() =
         LegalHistoryResult.Failure("شناسه سند یا ماده قانونی معتبر نیست.")
 
     private fun messageFor(code: Int): String = when (code) {
