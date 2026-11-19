@@ -128,7 +128,7 @@ class LegalHistoryActivity : AppCompatActivity() {
             item.effectiveDate?.let { addText("لازم‌الاجرا: $it") }
             item.sourceReference?.takeIf { it.isNotBlank() }?.let { addText("مستند: $it") }
             item.previousText?.takeIf { it.isNotBlank() }?.let {
-                addText("متن پیشین", 14f, true, R.color.error)
+                addText("متن پیشین", 14f, true, R.color.danger)
                 addText(it)
             }
             item.newText?.takeIf { it.isNotBlank() }?.let {
