@@ -23,6 +23,15 @@ interface ApiService {
     @GET("api/v1/legal-documents/active")
     suspend fun getActiveLegalDocument(): Response<ApiEnvelope<LegalDocumentDto>>
 
+    @GET("api/v1/legal-documents/{documentId}/versions")
+    suspend fun getLegalDocumentVersions(@Path("documentId") documentId: String): Response<ApiEnvelope<List<LegalDocumentVersionDto>>>
+
+    @GET("api/v1/legal-documents/{documentId}/amendments")
+    suspend fun getLegalAmendments(@Path("documentId") documentId: String): Response<ApiEnvelope<List<LegalAmendmentDto>>>
+
+    @GET("api/v1/articles/{articleId}/history")
+    suspend fun getArticleHistory(@Path("articleId") articleId: String): Response<ApiEnvelope<List<LegalAmendmentDto>>>
+
     @GET("api/v1/articles")
     suspend fun getArticles(
         @Query("page") page: Int? = null,
@@ -197,3 +206,28 @@ data class LegalArticleDto(
 )
 data class LegalSectionDto(val id: String, val title: String, val content: String, val sortOrder: Int = 0)
 data class LegalNoteDto(val id: String, val label: String, val content: String, val sortOrder: Int = 0)
+
+
+data class LegalDocumentVersionDto(
+    val id: String,
+    val documentId: String,
+    val versionNumber: String,
+    val publicationDate: String? = null,
+    val effectiveDate: String? = null,
+    val expirationDate: String? = null,
+    val amendmentDate: String? = null,
+    val status: String? = null,
+    val checksum: String? = null
+)
+
+data class LegalAmendmentDto(
+    val id: String,
+    val documentId: String,
+    val articleId: String,
+    val amendmentType: String,
+    val previousText: String? = null,
+    val newText: String? = null,
+    val publicationDate: String? = null,
+    val effectiveDate: String? = null,
+    val sourceReference: String? = null
+)
