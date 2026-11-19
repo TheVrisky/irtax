@@ -184,3 +184,12 @@ The transport DTO fields are:
 
 ### Implementation status
 Android has the typed DTOs, hierarchical mapping, SQLite JSON cache and bank-screen loading with cache/local fallback. The Laravel endpoint and publishing/import workflow still need to be implemented on the server.
+
+
+## Stable legal article identity and study-state migration
+
+Android stores favorites, read-state, and the last-read reference using stable article IDs when available (`article:<id>`). Older installations used `chapterKey:index`; these values are migrated without clearing user data.
+
+After a remote or cached legal document is applied, the app reconciles remaining legacy positional keys to stable IDs. Articles that do not yet have a stable ID retain their legacy key. Legal content synchronization must preserve the existing chapter client keys and existing article ordering until every legacy reference has been reconciled. Stable IDs are expected to survive editorial changes and numbering changes.
+
+The app resolves stable IDs against the active document when showing favorites and the last-read article. Unknown IDs are retained in preferences rather than deleted, allowing a future document version to resolve them.
