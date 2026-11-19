@@ -105,7 +105,6 @@ class AppRepository private constructor(context: Context) {
     }
 
     private fun migrateLegacyState() {
-        if (prefs.getBoolean(KEY_MIGRATION_DONE, false)) return
         val chapters = TaxData.content.chapters
         fun migrate(set: Set<String>): Set<String> = set.mapNotNull { old ->
             val parts = old.split(":")
@@ -128,6 +127,28 @@ class AppRepository private constructor(context: Context) {
             putStringSet(KEY_READ, reads)
             if (!lastArticleId.isNullOrBlank()) putString(KEY_LAST_ARTICLE_ID, lastArticleId)
             putBoolean(KEY_MIGRATION_DONE, true)
+        }
+    }
+
+    /** Reconcile positional legacy keys after a remote document with stable IDs is applied. */
+    fun reconcileStableIdentifiers() {
+        val chapters = TaxData.content.chapters
+        fun reconcile(set: Set<String>): Set<String> = set.mapNotNull { key ->
+            if (key.startsWith(STABLE_PREFIX)) return@mapNotNull key
+            val parts = key.split(":")
+            if (parts.size != 2) return@mapNotNull key
+            val chapter = chapters.find { it.id == parts[0] } ?: return@mapNotNull key
+            val index = parts[1].toIntOrNull() ?: return@mapNotNull key
+            val article = chapter.articles.getOrNull(index) ?: return@mapNotNull key
+            article.id?.takeIf { it.isNotBlank() }?.let { "$STABLE_PREFIX$it" } ?: key
+        }.toSet()
+        prefs.edit {
+            putStringSet(KEY_FAVORITES, reconcile(favSet()))
+            putStringSet(KEY_READ, reconcile(readSet()))
+            val chapterId = prefs.getString(KEY_LAST_CHAPTER, null)
+            val index = prefs.getInt(KEY_LAST_INDEX, -1)
+            val article = chapterId?.let { ch -> chapters.find { it.id == ch }?.articles?.getOrNull(index) }
+            if (!article?.id.isNullOrBlank()) putString(KEY_LAST_ARTICLE_ID, article?.id)
         }
     }
 
