@@ -105,14 +105,26 @@ class AppRepository private constructor(context: Context) {
     /** Reconcile legacy positional refs after replacing the active legal document. */
     fun reconcileStableIdentifiers() {
         val chapters = TaxData.content.chapters
-        fun reconcile(set: Set<String>) = set.map { key ->
-            if (key.startsWith(STABLE_PREFIX)) return@map key
-            val parts = key.split(":")
-            if (parts.size != 2) return@map key
-            val chapter = chapters.find { it.id == parts[0] } ?: return@map key
-            val index = parts[1].toIntOrNull() ?: return@map key
-            val article = chapter.articles.getOrNull(index) ?: return@map key
-            "$STABLE_PREFIX${stableId(chapter.id, article)}"
+        val aliases = buildMap<String, String> {
+            chapters.forEach { chapter ->
+                chapter.articles.forEach { article ->
+                    val bundledId = UUID.nameUUIDFromBytes("$DOCUMENT_ID:${chapter.id}:${article.number}".toByteArray(Charsets.UTF_8)).toString()
+                    put(bundledId, stableId(chapter.id, article))
+                }
+            }
+        }
+        fun reconcile(set: Set<String>): Set<String> = set.map { key ->
+            if (!key.startsWith(STABLE_PREFIX)) {
+                val parts = key.split(":")
+                if (parts.size == 2) {
+                    val chapter = chapters.find { it.id == parts[0] }
+                    val article = chapter?.articles?.getOrNull(parts[1].toIntOrNull() ?: -1)
+                    if (chapter != null && article != null) return@map "$STABLE_PREFIX${stableId(chapter.id, article)}"
+                }
+                return@map key
+            }
+            val oldId = key.removePrefix(STABLE_PREFIX)
+            "$STABLE_PREFIX${aliases[oldId] ?: oldId}"
         }.toSet()
         val chapterId = prefs.getString(KEY_LAST_CHAPTER, null)
         val index = prefs.getInt(KEY_LAST_INDEX, -1)
