@@ -33,9 +33,17 @@ class ArticleCache(context: Context) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        if (oldVersion < 2) {
-            db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_LEGAL_DOCUMENTS (id TEXT PRIMARY KEY NOT NULL, version TEXT, payload TEXT NOT NULL, cached_at INTEGER NOT NULL)")
+        if (oldVersion < 2) createLegalDocumentsTable(db)
+        if (oldVersion < 3) {
+            db.execSQL("ALTER TABLE $TABLE_LEGAL_DOCUMENTS RENAME TO legal_documents_legacy")
+            createLegalDocumentsTable(db)
+            db.execSQL("INSERT OR IGNORE INTO $TABLE_LEGAL_DOCUMENTS (id, version, payload, cached_at) SELECT id, COALESCE(version, 'legacy'), payload, cached_at FROM legal_documents_legacy")
+            db.execSQL("DROP TABLE legal_documents_legacy")
         }
+    }
+
+    private fun createLegalDocumentsTable(db: SQLiteDatabase) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_LEGAL_DOCUMENTS (id TEXT NOT NULL, version TEXT NOT NULL, payload TEXT NOT NULL, cached_at INTEGER NOT NULL, PRIMARY KEY(id, version))")
     }
 
     fun saveLegalDocument(id: String, version: String?, payload: String) {
