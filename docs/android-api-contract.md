@@ -216,3 +216,8 @@ Version records are immutable after publication. Amendment records describe chan
 Legacy `chapter:index` favorites/read markers are converted to `article:<uuid>` keys. For bundled content without a server UUID, Android derives a deterministic UUID from document ID, chapter key and article number. When remote content is applied, reconciliation maps bundled deterministic IDs to server article IDs when the chapter key/article number match. Unresolvable keys are retained.
 
 The last-read record includes the active document version. This is diagnostic metadata and does not erase or reset progress when a new legal version is installed.
+
+
+## Offline legal-history cache
+
+The Android history screen stores successful version, document-amendment and per-article history responses in a dedicated SQLite database. Cache entries are isolated by document/article ID and endpoint type. When a request fails because of connectivity, an unavailable API host or a server error, the repository returns the last saved response and the screen labels it as cached/offline data. A successful empty response is cached as an empty list so removed or unavailable history is not confused with an older result. The cache is read-only from the user's perspective and does not alter active legal content, bookmarks or reading progress.
