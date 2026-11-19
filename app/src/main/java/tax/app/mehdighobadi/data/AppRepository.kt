@@ -8,22 +8,19 @@ import java.util.Date
 import java.util.Locale
 
 /**
- * لایه‌ی داده‌ی محلی (کاملاً آفلاین):
- * - نشان‌گذاری مواد (علاقه‌مندی‌ها)
- * - آمار مطالعه (مواد خوانده‌شده، روزهای فعالیت، آخرین مطالعه)
- * - موتور پیشنهاد هوشمند ساده بر اساس روند مطالعه
+ * Offline study state. Existing chapter:index preferences are migrated once to
+ * stable article UUID keys when an article has an ID. Articles without IDs keep
+ * a legacy positional key until the bundled content supplies a stable ID.
  */
 class AppRepository private constructor(context: Context) {
-
     private val prefs: SharedPreferences =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-    // ---------- نشان‌گذاری‌ها ----------
+    init { migrateLegacyState() }
 
     fun isFavorite(chapterId: String, articleIndex: Int): Boolean =
         favSet().contains(articleKey(chapterId, articleIndex))
 
-    /** وضعیت جدید نشان را برمی‌گرداند (true = نشان‌شده) */
     fun toggleFavorite(chapterId: String, articleIndex: Int): Boolean {
         val set = favSet().toMutableSet()
         val key = articleKey(chapterId, articleIndex)
@@ -32,19 +29,8 @@ class AppRepository private constructor(context: Context) {
         return added
     }
 
-    /** همه‌ی نشان‌شده‌ها به ترتیب فصل و ماده (مواد حذف‌شده از داده نادیده گرفته می‌شوند) */
-    fun favoriteRefs(): List<ArticleRef> {
-        val refs = favSet().mapNotNull { key ->
-            val parts = key.split(":")
-            if (parts.size != 2) return@mapNotNull null
-            val chapterId = parts[0]
-            val index = parts[1].toIntOrNull() ?: return@mapNotNull null
-            ArticleRef(chapterId, index)
-        }.filter { it.isValid() }.sortedBy { it.flatIndex() }
-        return refs
-    }
-
-    // ---------- آمار مطالعه ----------
+    fun favoriteRefs(): List<ArticleRef> =
+        favSet().mapNotNull(::resolveKey).filter { it.isValid() }.sortedBy { it.flatIndex() }
 
     fun isRead(chapterId: String, articleIndex: Int): Boolean =
         readSet().contains(articleKey(chapterId, articleIndex))
@@ -52,39 +38,30 @@ class AppRepository private constructor(context: Context) {
     fun markRead(chapterId: String, articleIndex: Int) {
         val key = articleKey(chapterId, articleIndex)
         val set = readSet().toMutableSet()
-        if (!set.contains(key)) {
-            set.add(key)
-            prefs.edit { putStringSet(KEY_READ, set) }
-        }
-        // ثبت روز فعالیت برای «روزهای مطالعه»
+        if (set.add(key)) prefs.edit { putStringSet(KEY_READ, set) }
+
         val today = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
         val days = prefs.getStringSet(KEY_DAYS, emptySet())?.toMutableSet() ?: mutableSetOf()
         days.add(today)
         prefs.edit { putStringSet(KEY_DAYS, days) }
-        // آخرین مطالعه
+
+        val article = TaxData.content.chapters.find { it.id == chapterId }?.articles?.getOrNull(articleIndex)
         prefs.edit {
             putString(KEY_LAST_CHAPTER, chapterId)
             putInt(KEY_LAST_INDEX, articleIndex)
+            putString(KEY_LAST_ARTICLE_ID, article?.id)
         }
     }
 
-    fun readCount(): Int = readSet().count { key ->
-        val parts = key.split(":")
-        parts.size == 2 &&
-            TaxData.content.chapters.any { ch ->
-                ch.id == parts[0] && (parts[1].toIntOrNull() ?: -1) in ch.articles.indices
-            }
-    }
+    fun readCount(): Int = readSet().count { resolveKey(it)?.isValid() == true }
 
     fun chapterReadCount(chapterId: String): Int {
         val chapter = TaxData.content.chapters.find { it.id == chapterId } ?: return 0
-        val prefix = "$chapterId:"
-        return readSet().count { it.startsWith(prefix) && (it.removePrefix(prefix).toIntOrNull() ?: -1) in chapter.articles.indices }
+        return chapter.articles.indices.count { isRead(chapterId, it) }
     }
 
     fun totalArticles(): Int = TaxData.content.chapters.sumOf { it.articles.size }
 
-    /** پیشرفت کل ۰ تا ۱ */
     fun overallProgress(): Float {
         val total = totalArticles()
         if (total == 0) return 0f
@@ -97,23 +74,20 @@ class AppRepository private constructor(context: Context) {
         return chapterReadCount(chapterId).toFloat() / chapter.articles.size
     }
 
-    /** تعداد روزهای متفاوتی که مطالعه ثبت شده */
     fun studyDays(): Int = prefs.getStringSet(KEY_DAYS, emptySet())?.size ?: 0
 
-    /** آخرین ماده‌ی مطالعه‌شده برای «ادامه مطالعه» */
     fun lastReadRef(): ArticleRef? {
+        val stableId = prefs.getString(KEY_LAST_ARTICLE_ID, null)
+        if (!stableId.isNullOrBlank()) {
+            val stableRef = findByArticleId(stableId)
+            if (stableRef != null) return stableRef
+        }
         val chapterId = prefs.getString(KEY_LAST_CHAPTER, null) ?: return null
         val index = prefs.getInt(KEY_LAST_INDEX, -1)
         val ref = ArticleRef(chapterId, index)
-        return if (ref.isValid()) ref else null
+        return ref.takeIf { it.isValid() }
     }
 
-    // ---------- پیشنهاد هوشمند ----------
-
-    /**
-     * فصلی با کمترین پیشرفت (اولویت با فصل بعدیِ خوانده‌نشده نسبت به آخرین مطالعه).
-     * اگر همه کامل شده باشد null برمی‌گردد.
-     */
     fun smartSuggestion(): Chapter? {
         val chapters = TaxData.content.chapters
         val nextFromLast = lastReadRef()?.let { last ->
@@ -124,12 +98,57 @@ class AppRepository private constructor(context: Context) {
         return candidates.minByOrNull { chapterProgress(it.id) }
     }
 
-    // ---------- Helpers ----------
+    private fun articleKey(chapterId: String, index: Int): String {
+        val article = TaxData.content.chapters.find { it.id == chapterId }?.articles?.getOrNull(index)
+        return article?.id?.takeIf { it.isNotBlank() }?.let { "$STABLE_PREFIX$it" }
+            ?: legacyKey(chapterId, index)
+    }
 
-    private fun articleKey(chapterId: String, index: Int) = "$chapterId:$index"
+    private fun migrateLegacyState() {
+        if (prefs.getBoolean(KEY_MIGRATION_DONE, false)) return
+        val chapters = TaxData.content.chapters
+        fun migrate(set: Set<String>): Set<String> = set.mapNotNull { old ->
+            val parts = old.split(":")
+            if (parts.size != 2) return@mapNotNull old.takeIf { it.startsWith(STABLE_PREFIX) }
+            val chapter = chapters.find { it.id == parts[0] } ?: return@mapNotNull old
+            val index = parts[1].toIntOrNull() ?: return@mapNotNull old
+            val article = chapter.articles.getOrNull(index) ?: return@mapNotNull old
+            article.id?.takeIf { it.isNotBlank() }?.let { "$STABLE_PREFIX$it" } ?: old
+        }.toSet()
 
-    private fun favSet(): Set<String> = prefs.getStringSet(KEY_FAVORITES, emptySet()) ?: emptySet()
-    private fun readSet(): Set<String> = prefs.getStringSet(KEY_READ, emptySet()) ?: emptySet()
+        val favorites = migrate(favSet())
+        val reads = migrate(readSet())
+        val lastChapter = prefs.getString(KEY_LAST_CHAPTER, null)
+        val lastIndex = prefs.getInt(KEY_LAST_INDEX, -1)
+        val lastArticleId = lastChapter?.let { chapterId ->
+            chapters.find { it.id == chapterId }?.articles?.getOrNull(lastIndex)?.id
+        }
+        prefs.edit {
+            putStringSet(KEY_FAVORITES, favorites)
+            putStringSet(KEY_READ, reads)
+            if (!lastArticleId.isNullOrBlank()) putString(KEY_LAST_ARTICLE_ID, lastArticleId)
+            putBoolean(KEY_MIGRATION_DONE, true)
+        }
+    }
+
+    private fun resolveKey(key: String): ArticleRef? {
+        if (key.startsWith(STABLE_PREFIX)) return findByArticleId(key.removePrefix(STABLE_PREFIX))
+        val parts = key.split(":")
+        if (parts.size != 2) return null
+        return ArticleRef(parts[0], parts[1].toIntOrNull() ?: return null)
+    }
+
+    private fun findByArticleId(id: String): ArticleRef? {
+        TaxData.content.chapters.forEach { chapter ->
+            val index = chapter.articles.indexOfFirst { it.id == id }
+            if (index >= 0) return ArticleRef(chapter.id, index)
+        }
+        return null
+    }
+
+    private fun legacyKey(chapterId: String, index: Int) = "$chapterId:$index"
+    private fun favSet(): Set<String> = prefs.getStringSet(KEY_FAVORITES, emptySet())?.toSet() ?: emptySet()
+    private fun readSet(): Set<String> = prefs.getStringSet(KEY_READ, emptySet())?.toSet() ?: emptySet()
 
     data class ArticleRef(val chapterId: String, val articleIndex: Int) {
         fun isValid(): Boolean {
@@ -155,9 +174,11 @@ class AppRepository private constructor(context: Context) {
         private const val KEY_DAYS = "study_days"
         private const val KEY_LAST_CHAPTER = "last_chapter"
         private const val KEY_LAST_INDEX = "last_index"
+        private const val KEY_LAST_ARTICLE_ID = "last_article_id"
+        private const val KEY_MIGRATION_DONE = "stable_article_ids_migrated_v1"
+        private const val STABLE_PREFIX = "article:"
 
-        @Volatile
-        private var instance: AppRepository? = null
+        @Volatile private var instance: AppRepository? = null
 
         fun get(context: Context): AppRepository =
             instance ?: synchronized(this) {
